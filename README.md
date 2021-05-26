@@ -11,7 +11,7 @@ Virus check see below.
 
 App changes the Clipboard-content!  
   
-Simple app (Windows only \*1)) to start "sbt console" (the Scala REPL) [sbt](https://www.scala-sbt.org/) is a \[Scala](https://www.scala-lang.org/) build tool] in different directories. 
+Simple app (Windows only \*1)) to start "sbt console" (the Scala REPL) [sbt](https://www.scala-sbt.org/) is a [Scala](https://www.scala-lang.org/) build tool] in different directories. 
   
 Can be used to start any programm/app in a selectable directory.  
 ("sbt console" needs a ["build.sbt" file](https://www.scala-sbt.org/1.x/docs/Basic-Def.html) in the running directory!).  
