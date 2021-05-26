@@ -11,7 +11,7 @@ Virus check see below.
 
 App changes the Clipboard-content!  
   
-Simple app (Windows only \*1)) to start "sbt console" (the [Scala](https://www.scala-lang.org/) REPL) [sbt](https://www.scala-sbt.org/) is a Scala build tool] in different directories. 
+Simple app (Windows only \*1)) to start "sbt console" (the [Scala](https://www.scala-lang.org/) REPL) [sbt](https://www.scala-sbt.org/) is a Scala build tool in different directories. 
   
 Can be used to start any programm/app in a selectable directory.  
 ("sbt console" needs a ["build.sbt" file](https://www.scala-sbt.org/1.x/docs/Basic-Def.html) in the running directory!).  
@@ -76,8 +76,8 @@ SCALA_HOME can be set by appending the path to the Java-path with a "#"-separato
 * Do not change the Console-Window if the last command has not started!  
 * Last opened (by sbt_console_select) Console-Window is peferred but any other opened Console-Window is used. 
 * Can be used not only to start sbt but many other tools, starts a %comspec% shell if command-field is emtpy.
-* REPL Past mode  
-* * In conjunction with Cmdlinedev just prepend code with :paste, mark the code and press \[Cntrl] + [e]  
+* REPL Past mode:  
+* * Just prepend code with :paste, mark the code and press a replLoadHotkey.   
 * * No Ctrl+D is needed, past-mode ends when the file-end is reached.  
 
 ##### Latest changes  
