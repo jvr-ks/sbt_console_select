@@ -1,0 +1,7 @@
+graalvm11_21.0.0.2,C:\Program Files\Java\graalvm-ce-java11-21.0.0.2
+graalvm8_21.0.0.2,C:\Program Files\Java\graalvm-ce-java8-21.0.0.2
+jdk8,C:\Program Files (x86)\Java\jdk1.8.0_271
+gvm8_Scala_2.12.13,C:\Program Files\Java\graalvm-ce-java8-21.0.0.2#C:\jvr_shared\scala-2.12.13
+
+
+

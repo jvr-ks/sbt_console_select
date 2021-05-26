@@ -1,0 +1,20 @@
+[scL]\__testarea,sbt consoleQuick,graalvm11_21.0.0.2
+[pWP],sbt ~run,graalvm11_21.0.0.2,-Xms4G -Xmx12G -XX:+HeapDumpOnOutOfMemoryError,-Dfile.encoding=UTF-8
+[sc]\scalafxAsScript,sbt consoleQuick,graalvm11_21.0.0.2
+[scL]\__testarea,sbt consoleQuick,graalvm8_21.0.0.2
+[scL]\__testarea,scala,graalvm11_21.0.0.2
+[scL]\__testarea,amm
+[sc]\scalafxAsScript,amm
+[scL]\akka,sbt console,graalvm11_21.0.0.2
+[scL]\akka,sbt ~run,graalvm11_21.0.0.2
+[scL]\akka,sbt consoleQuick,graalvm11_21.0.0.2
+[scL]\cats,sbt consoleQuick,jdk8
+[scL]\cats,sbt consoleQuick,ggraalvm11_21.0.0.2
+[scL]\cats,sbt consoleProject#(Compile / fullClasspath).eval.files foreach println,graalvm11_21.0.0.2
+[scL]\akka,sbt consoleQuick,jdk8
+[scN],sbt consoleQuick,graalvm11_21.0.0.2
+[alg]\_HKB\_server\wp8\allfiles,sbt consoleQuick,graalvm11_20.3.0
+,sbt -sbt-version 1.4.6 consoleQuick#:load scalafxTest2.sc#+close+,graalvm11_21.0.0.2
+C:\___x2_wrk\_autohotkey\sbt_console_select,sbt consoleQuick,graalvm11_21.0.0.2
+[scL]\__testarea,scala,gvm8_Scala_2.12.13
+[scL]\__testarea,scala,gvm11_Scala_2.13.5s
