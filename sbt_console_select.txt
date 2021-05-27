@@ -9,7 +9,7 @@
 [scL]\akka,sbt ~run,graalvm11_21.0.0.2
 [scL]\akka,sbt consoleQuick,graalvm11_21.0.0.2
 [scL]\cats,sbt consoleQuick,jdk8
-[scL]\cats,sbt consoleQuick,ggraalvm11_21.0.0.2
+[scL]\cats,sbt consoleQuick,graalvm11_21.0.0.2
 [scL]\cats,sbt consoleProject#(Compile / fullClasspath).eval.files foreach println,graalvm11_21.0.0.2
 [scL]\akka,sbt consoleQuick,jdk8
 [scN],sbt consoleQuick,graalvm11_21.0.0.2
