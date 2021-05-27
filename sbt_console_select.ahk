@@ -54,7 +54,7 @@ OwnPID := DllCall("GetCurrentProcessId")
 msgDefault := ""
 
 appName := "sbt_console_select"
-appVersion := "0.150"
+appVersion := "0.151"
 app := appName . " " . appVersion
 
 SetWorkingDir, %A_ScriptDir%
@@ -324,7 +324,7 @@ replLoad_dpre(){
 	global lastOpendTitle
 
 	winActivate,ahk_exe notepad++.exe
-	SendInput,^s
+	Send {Ctrl down}s{Ctrl up}
 
 	SetTitleMatchMode, 2
 	winFound := false
@@ -381,11 +381,11 @@ replLoadAction(selectAll := false){
 	tmpFile := wrkDir . "repl.tmp"
 	
 	if (selectAll){
-		SendInput,^a
-		sleep,500
+		Send {Ctrl down}a{Ctrl up}
+		sleep,200
 	}
 
-	SendInput,^c
+	Send {Ctrl down}c{Ctrl up}
 	
 	if (clipboard != ""){
 		code := clipboard
@@ -930,7 +930,7 @@ runInDir(lineNumber){
 								sendExit()
 							} else {
 								clipboard := param
-								Send,^v
+								Send {Ctrl down}v{Ctrl up}
 								SendInput,{Enter}
 							}
 						}
