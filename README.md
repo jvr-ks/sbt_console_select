@@ -54,8 +54,6 @@ Remember: SBT-Console depends on "build.sbt" and the files in the "project"-subf
 \*1) Can be used with the WSL, but cannot set the Java-runtime-version in WSL.  
 \*2) Drawback: Code is inserted as a block, you cannot navigate thru each line,  
 \*3) Sends Ctrl + C keys or Ctrl + A, Ctrl + C keys to your editor
-
-TODO: fill the REPL cache with code (?)  
  
 ##### Setting Java and Scala versions  
 Using SBT:  
