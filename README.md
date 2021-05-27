@@ -40,7 +40,7 @@ If the --load the code-- replcommandN (a dummy) is reached,
 the **whole** code or the **selected** code-part  
 of the current file is executed in the REPL.  
  
-The code is copied to the clipboard, written to temporary file "repl.tmp"  
+The code is copied to the clipboard, written to temporary file "repl.tmp" \*3)  
 (in the sbt-console-select directory, with an additional newline appended)   
 and then loaded into the SBT-REPL and "executed" by executing "replcommandN=:load path-to-repl.tmp" instead of the "replcommandN=--load the code--" command \*2)  
    
@@ -53,6 +53,7 @@ Remember: SBT-Console depends on "build.sbt" and the files in the "project"-subf
 
 \*1) Can be used with the WSL, but cannot set the Java-runtime-version in WSL.  
 \*2) Drawback: Code is inserted as a block, you cannot navigate thru each line,  
+\*3) Sends Ctrl + C keys or Ctrl + A, Ctrl + C keys to your editor
 
 TODO: fill the REPL cache with code (?)  
  
@@ -225,6 +226,6 @@ Copyright (c) 2020 J. v. Roos
 
 
 ##### Virus check at Virustotal 
-[Check here](https://www.virustotal.com/gui/url/ff99979467dfc66771a6fc4ea2525f0071804ae60257147bee1b05f626c48eb8/detection/u-ff99979467dfc66771a6fc4ea2525f0071804ae60257147bee1b05f626c48eb8-1622033892
+[Check here](https://www.virustotal.com/gui/url/ff99979467dfc66771a6fc4ea2525f0071804ae60257147bee1b05f626c48eb8/detection/u-ff99979467dfc66771a6fc4ea2525f0071804ae60257147bee1b05f626c48eb8-1622107105
 )  
 Use [CTRL] + Click to open in a new window! 

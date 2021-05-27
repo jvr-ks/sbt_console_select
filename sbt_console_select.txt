@@ -17,4 +17,4 @@
 ,sbt -sbt-version 1.4.6 consoleQuick#:load scalafxTest2.sc#+close+,graalvm11_21.0.0.2
 C:\___x2_wrk\_autohotkey\sbt_console_select,sbt consoleQuick,graalvm11_21.0.0.2
 [scL]\__testarea,scala,gvm8_Scala_2.12.13
-[scL]\__testarea,scala,gvm11_Scala_2.13.5s
+[scL]\__testarea,sbt test:consoleQuick,gvm11_Scala_2.13.5
