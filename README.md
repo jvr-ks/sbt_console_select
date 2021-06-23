@@ -80,6 +80,8 @@ SCALA_HOME can be set by appending the path to the Java-path with a "#"-separato
 * * No Ctrl+D is needed, past-mode ends when the file-end is reached.  
 
 ##### Latest changes  
+
+* Moved GraalVM to "C:\shared\*" (file "sbt_console_select_jhome.txt")
 * replLoadHotkey mechanism changed!
 * JAVA_OPTS and JAVA_TOOL_OPTIONS   
 can be set (global setting valid for all entries):  
@@ -224,6 +226,6 @@ Copyright (c) 2020 J. v. Roos
 
 
 ##### Virus check at Virustotal 
-[Check here](https://www.virustotal.com/gui/url/ff99979467dfc66771a6fc4ea2525f0071804ae60257147bee1b05f626c48eb8/detection/u-ff99979467dfc66771a6fc4ea2525f0071804ae60257147bee1b05f626c48eb8-1622129902
+[Check here](https://www.virustotal.com/gui/url/ff99979467dfc66771a6fc4ea2525f0071804ae60257147bee1b05f626c48eb8/detection/u-ff99979467dfc66771a6fc4ea2525f0071804ae60257147bee1b05f626c48eb8-1624444890
 )  
 Use [CTRL] + Click to open in a new window! 

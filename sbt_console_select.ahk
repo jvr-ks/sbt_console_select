@@ -54,7 +54,7 @@ OwnPID := DllCall("GetCurrentProcessId")
 msgDefault := ""
 
 appName := "sbt_console_select"
-appVersion := "0.151"
+appVersion := "0.152"
 app := appName . " " . appVersion
 
 SetWorkingDir, %A_ScriptDir%
