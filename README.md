@@ -44,6 +44,40 @@ The code is copied to the clipboard, written to temporary file "repl.tmp" \*3)
 (in the sbt-console-select directory, with an additional newline appended)   
 and then loaded into the SBT-REPL and "executed" by executing "replcommandN=:load path-to-repl.tmp" instead of the "replcommandN=--load the code--" command \*2)  
    
+* replLoadExecHotkey: **\[SHIFT] + \[ALT] + \[e]**  ->  
+The currently **selected** code-part is saved to the temporary file "replExec.tmp"  
+This code is executed by the REPL everytime the dummy replcommandN = --load the codeExec--   
+is reached, i.e. when on of the replLoadHotkeys is pressed.  
+The \[Config-file] must contain "replcommandN = --load the codeExec--"  
+preferable as the last command!   
+  
+Example code:  
+  
+// scala3   
+  
+// mark this part1 and press the replLoadExecHotkey (once only!) (**\[SHIFT] + \[ALT] + \[e]** is default).  
+listMagician(List(Magician("Copperfield", 64), Magician("Merlin", 920)))  
+\/* 1)
+  
+// mark this part2 and press the replLoadHotkey (**\[CTRL] + \[e]** is default).   
+case class Magician(name: String, age: Int)  
+  
+given magicianOrdering: Ordering[Magician] = new Ordering[Magician] {  
+	override def compare(x: Magician, y: Magician): Int = {  
+		x.age.compareTo(y.age)  
+	}  
+}  
+  
+def listMagician(magicians: Seq[Magician]) = {  
+	println("List of Magicians:")  
+	for p <- magicians.sorted do  
+		println(s"Name: $p.name, Age: p.age")  
+}  
+  
+Code is interpreted as two parts (like :paste-mode).  
+  
+/* 1) to inactivate contents mark "//" and press the replLoadExecHotkey!  
+   
 * replResethotkey: **\[CTRL] + \[r]** -> Reset SBT-REPL  
 To reset SBT-REPL via hotkey.   
 The SBT-console is identified by its title with an id created from actual time.    
@@ -226,6 +260,6 @@ Copyright (c) 2020 J. v. Roos
 
 
 ##### Virus check at Virustotal 
-[Check here](https://www.virustotal.com/gui/url/ff99979467dfc66771a6fc4ea2525f0071804ae60257147bee1b05f626c48eb8/detection/u-ff99979467dfc66771a6fc4ea2525f0071804ae60257147bee1b05f626c48eb8-1624444890
+[Check here](https://www.virustotal.com/gui/url/ff99979467dfc66771a6fc4ea2525f0071804ae60257147bee1b05f626c48eb8/detection/u-ff99979467dfc66771a6fc4ea2525f0071804ae60257147bee1b05f626c48eb8-1624546012
 )  
 Use [CTRL] + Click to open in a new window! 

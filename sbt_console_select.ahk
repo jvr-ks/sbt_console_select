@@ -54,7 +54,7 @@ OwnPID := DllCall("GetCurrentProcessId")
 msgDefault := ""
 
 appName := "sbt_console_select"
-appVersion := "0.152"
+appVersion := "0.153"
 app := appName . " " . appVersion
 
 SetWorkingDir, %A_ScriptDir%
@@ -109,6 +109,9 @@ replLoadHotkey := replLoadHotkeyDefault
 
 replSelectLoadhotkeyDefault := "^e"
 replSelectLoadhotkey := replSelectLoadhotkeyDefault
+
+replSelectLoadExecHotkeyDefault := "+!e"
+replSelectLoadExecHotkey := replSelectLoadExecHotkeyDefault
 
 replResethotkeyDefault := "^r"
 replResethotkey := replResethotkeyDefault
@@ -257,6 +260,8 @@ readIni(){
 	global replLoadHotkey
 	global replSelectLoadHotkeyDefault
 	global replSelectLoadHotkey
+	global replSelectLoadExecHotkeyDefault
+	global replSelectLoadExecHotkey
 	global replResetHotkeyDefault
 	global replResetHotkey
 	global exitHotkeyDefault
@@ -288,6 +293,9 @@ readIni(){
 	
 	IniRead, replSelectLoadhotkey, %iniFile%, hotkeys, replSelectloadhot , %replSelectLoadhotkeyDefault%
 	Hotkey, %replSelectLoadhotkey%, replSelectLoad
+	
+	IniRead, replSelectLoadExecHotkey, %iniFile%, hotkeys, replSelectloadhot , %replSelectLoadExecHotkeyDefault%
+	Hotkey, %replSelectLoadExecHotkey%, replSelectLoadExec
 	
 	IniRead, replResethotkey, %iniFile%, hotkeys, replResethot , %replResethotkeyDefault%
 	Hotkey, %replResethotkey%, replReset
@@ -379,6 +387,7 @@ replLoadAction(selectAll := false){
 	global wrkDir
 	
 	tmpFile := wrkDir . "repl.tmp"
+	tmpFileExec := wrkDir . "replExec.tmp"
 	
 	if (selectAll){
 		Send {Ctrl down}a{Ctrl up}
@@ -407,7 +416,7 @@ replLoadAction(selectAll := false){
 					winFound := true
 				}
 			}
-						
+			
 			if (winFound){
 				l := replcommandsArr.length()
 				Loop, %l%
@@ -418,11 +427,22 @@ replLoadAction(selectAll := false){
 					
 					if (isLoad)
 						toSend := ":load " . tmpFile
-
-					if (toSend != "" && !InStr(toSend,"//")){
+					
+					if (toSend != "" && !InStr(toSend,"//") && !InStr(toSend,"--load the code")){
 						SendInput,{text}%toSend%
 						SendInput,{Enter}
 					}
+					
+					isLoadExec := RegExMatch(toSend, "i)--load the codeExec--")
+					
+					if (isLoadExec)
+						toSend := ":load " . tmpFileExec
+					
+					if (toSend != "" && !InStr(toSend,"//") && !InStr(toSend,"--load the code")){
+						SendInput,{text}%toSend%
+						SendInput,{Enter}
+					}
+					
 				}
 				tipWindow("Press [CTRL]-key to return to Notepad2!")
 				
@@ -440,6 +460,30 @@ replLoadAction(selectAll := false){
 		msgbox, Clipboard is empty or contains wrong data-type!
 	}
 
+	return
+}
+;---------------------------- replSelectLoadExec ----------------------------
+replSelectLoadExec(){
+	; save exec-code to file "replExec.tmp"
+	
+	global wrkDir
+	
+	tmpFileExec := wrkDir . "replExec.tmp"
+	
+	Send {Ctrl down}c{Ctrl up}
+	
+	if (clipboard != ""){
+		code := clipboard
+		
+		if (code != ""){
+			FileDelete, %tmpFileExec%
+			FileAppend , %code%, %tmpFileExec%
+			FileAppend ,`n, %tmpFileExec%
+			
+			tipTopTime("Saved EXEC-part: `n" . code, 5000)
+		}
+	}
+	
 	return
 }
 ;------------------------------ replReset ------------------------------
