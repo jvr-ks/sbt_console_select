@@ -4,7 +4,7 @@
 
 inThisBuild(
 	List(
-		scalaVersion := dottyLatestNightlyBuild.get
+		scalaVersion := sys.env.get("dottyLatestNightlyBuild").getOrElse("3.0.2-RC1-bin-20210624-ecbe3d2-NIGHTLY")
 	)
 )
 
