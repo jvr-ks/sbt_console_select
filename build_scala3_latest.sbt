@@ -1,4 +1,5 @@
 // build.sbt
+// rename this to build.sbt !
 // Scala 3 nightly latest
 
 inThisBuild(
@@ -13,7 +14,7 @@ val default = "latest.integration"
 lazy val root = (project in file("."))
 .settings(
 	name := "scala3",
-	organization := "de.jvr",
+	organization := "com.xyz",
 	version := "0.001",
 		
 	logLevel := Level.Warn,
