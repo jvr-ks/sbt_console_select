@@ -1,10 +1,11 @@
 // build.sbt
 // rename this to build.sbt !
 // Scala 3 nightly latest
+// Possible use https://github.com/jvr-ks/dotty-latest to set scalaVersion
 
 inThisBuild(
 	List(
-		scalaVersion := sys.env.get("dottyLatestNightlyBuild").getOrElse("3.0.2-RC1-bin-20210624-ecbe3d2-NIGHTLY")
+		scalaVersion := sys.env.get("dottyLatestNightlyBuild").getOrElse("3.0.0")
 	)
 )
 
