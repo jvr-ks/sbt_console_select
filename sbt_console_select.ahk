@@ -54,12 +54,14 @@ OwnPID := DllCall("GetCurrentProcessId")
 msgDefault := ""
 
 appName := "sbt_console_select"
-appVersion := "0.153"
+appVersion := "0.154"
 app := appName . " " . appVersion
 
 SetWorkingDir, %A_ScriptDir%
 
 wrkDir := A_ScriptDir . "\"
+replExecFile := wrkDir . "replExec.tmp"
+replFile := wrkDir . "repl.tmp"
 
 FileEncoding, UTF-8-RAW
 
@@ -76,8 +78,6 @@ lastOpendTitle := "???"
 
 holdtimeDefault := 3000 ; milliseconds
 holdtime := holdtimeDefault
-
-dpiScale := "on"
 
 fontDefault := "Calibri"
 font := fontDefault
@@ -322,7 +322,7 @@ readIni(){
 			replcommandsArr.push(replcommand%A_Index%)
 	}
 	
-	msgDefault := "Hotkey: " . hotkeyToText(menuhotkey) . ", Click + [CTRL] -> filemanager, Click + [SHIFT] -> build.sbt, Click +  [Capslock] -> use WSL"
+	msgDefault := "Click + [CTRL] -> filemanager, Click + [SHIFT] -> build.sbt, Click +  [Capslock] -> use WSL"
 	
 	return
 }
@@ -346,23 +346,23 @@ replLoad_dpre(){
 			winFound := true
 		}
 	}
-				
+	
 	if (winFound){
-	  tipWindow("Press [CTRL]-key to return to Notepad2!")
-	  
-	  l := replcommandsArr.length()
-	  Loop, %l%
-	  {
-		  toSend := replcommandsArr[A_Index]
-		  if (toSend != "" && !InStr(toSend,"//")){
-			  SendInput,{text}%toSend%
-			  SendInput,{Enter}
-		  }
-	  }
+		tipWindow("Press [CTRL]-key to return to Notepad2!")
+		
+		l := replcommandsArr.length()
+		Loop, %l%
+		{
+			toSend := replcommandsArr[A_Index]
+			if (toSend != "" && !InStr(toSend,"//")){
+				SendInput,{text}%toSend%
+				SendInput,{Enter}
+			}
+		}
 
-	  KeyWait,Control,D
-	  tipWindowClose()
-	  winActivate,ahk_exe notepad++.exe
+		KeyWait,Control,D
+		tipWindowClose()
+		winActivate,ahk_exe notepad++.exe
 	} else {
 		msgbox, No suitable Console-Window found!
 	}
@@ -384,10 +384,8 @@ replSelectLoad(){
 replLoadAction(selectAll := false){
 	global replcommandsArr
 	global lastOpendTitle
-	global wrkDir
-	
-	tmpFile := wrkDir . "repl.tmp"
-	tmpFileExec := wrkDir . "replExec.tmp"
+	global replFile
+	global replExecFile
 	
 	if (selectAll){
 		Send {Ctrl down}a{Ctrl up}
@@ -400,9 +398,9 @@ replLoadAction(selectAll := false){
 		code := clipboard
 		
 		if (code != ""){
-			FileDelete, %tmpFile%
-			FileAppend , %code%, %tmpFile%
-			FileAppend ,`n, %tmpFile%
+			FileDelete, %replFile%
+			FileAppend , %code%, %replFile%
+			FileAppend ,`n, %replFile%
 			
 			SetTitleMatchMode, 2
 			winFound := false
@@ -426,7 +424,8 @@ replLoadAction(selectAll := false){
 					isLoad := RegExMatch(toSend, "i)--load the code--")
 					
 					if (isLoad)
-						toSend := ":load " . tmpFile
+						if (FileExist(replFile))
+							toSend := ":load " . replFile
 					
 					if (toSend != "" && !InStr(toSend,"//") && !InStr(toSend,"--load the code")){
 						SendInput,{text}%toSend%
@@ -436,7 +435,8 @@ replLoadAction(selectAll := false){
 					isLoadExec := RegExMatch(toSend, "i)--load the codeExec--")
 					
 					if (isLoadExec)
-						toSend := ":load " . tmpFileExec
+						if (FileExist(replExecFile))
+							toSend := ":load " . replExecFile
 					
 					if (toSend != "" && !InStr(toSend,"//") && !InStr(toSend,"--load the code")){
 						SendInput,{text}%toSend%
@@ -466,9 +466,7 @@ replLoadAction(selectAll := false){
 replSelectLoadExec(){
 	; save exec-code to file "replExec.tmp"
 	
-	global wrkDir
-	
-	tmpFileExec := wrkDir . "replExec.tmp"
+	global replExecFile
 	
 	Send {Ctrl down}c{Ctrl up}
 	
@@ -476,9 +474,9 @@ replSelectLoadExec(){
 		code := clipboard
 		
 		if (code != ""){
-			FileDelete, %tmpFileExec%
-			FileAppend , %code%, %tmpFileExec%
-			FileAppend ,`n, %tmpFileExec%
+			FileDelete, %replExecFile%
+			FileAppend , %code%, %replExecFile%
+			FileAppend ,`n, %replExecFile%
 			
 			tipTopTime("Saved EXEC-part: `n" . code, 5000)
 		}
@@ -489,9 +487,12 @@ replSelectLoadExec(){
 ;------------------------------ replReset ------------------------------
 replReset(){
 	global lastOpendTitle
+	global replExecFile
 	
 	SetTitleMatchMode, 2
 	winFound := false
+	
+	isWin := WinActive("A")
 	
 	if WinExist(lastOpendTitle){
 		winActivate,%lastOpendTitle%
@@ -502,17 +503,20 @@ replReset(){
 			winFound := true
 		}
 	}
-				
+	
 	if (winFound){
-		isWin := WinActive("A")
-		winActivate,%lastOpendTitle%
-		sleep, 1000
+		toSend := ":reset`n"
+		SendInput,{text}%toSend%
 		
-		if WinActive(lastOpendTitle){
-			toSend := ":reset`n"
-			SendInput,{text}%toSend%
-		}
-		WinActivate, ahk_id %isWin%
+		if (FileExist(replExecFile))
+			FileDelete, %replExecFile%
+			
+		tipWindow("Press [CTRL]-key to return to previous window!")
+		KeyWait,Control,D
+		tipWindowClose()
+		winActivate,ahk_id %isWin%
+	} else {
+		tipWindow("No approbiate console-window found!")
 	}
 	
 	return
@@ -672,7 +676,7 @@ mainWindow(hide := false) {
 	exitText := "Close app and remove it from memory!" 
 	Menu, MainMenu, Add,%exitText%,exit
 	
-	Gui,guiMain:New,+E0x08000000 +OwnDialogs +LastFound MaximizeBox HwndhMain +Resize -DPIScale, %app%
+	Gui,guiMain:New,+E0x08000000 +OwnDialogs +LastFound MaximizeBox HwndhMain +Resize, %app%
 	
 	Gui, guiMain:Font, s%fontsize%, %font%
 
@@ -695,8 +699,7 @@ mainWindow(hide := false) {
 	
 	Gui, guiMain:Add, StatusBar,,
 	
-	mem := msgDefault  . ", [" . GetProcessMemoryUsage(OwnPID) . " MB" . "]"
-	showMessage(mem)
+	showMessage("", msgDefault)
 	
 	Gui, guiMain:Menu, MainMenu
 		
@@ -742,7 +745,7 @@ guiMainGuiSize:
 SetTimer %A_ThisLabel%,Off
 	
 if (A_EventInfo = 1)  ; The window has been minimized. No action needed.
-    return
+		return
 
 borderX := 10
 borderY := 50 ; reserve some space for statusbar and scrollbar
@@ -784,8 +787,7 @@ showWindowRefreshed(){
 	showWindow()
 	refreshGui()
 	
-	mem := msgDefault  . ", [" . GetProcessMemoryUsage(OwnPID) . " MB" . "]"
-	showMessage(mem)
+	showMessage("", msgDefault)
 	
 	return
 }
@@ -984,7 +986,7 @@ runInDir(lineNumber){
 				msgbox, *** ERROR! *** SBT-Console with titel %lastOpendTitle% is not open!
 				return
 			}
-									
+		
 		case 2:
 			;*** Shift = edit built.sbt ***
 			
@@ -1116,7 +1118,7 @@ shortcut(s){
 
 	return r
 }
-;******************************* readGuiParam *******************************
+;------------------------------- readGuiParam -------------------------------
 readGuiParam(){
 	global iniFile
 	global fontDefault
@@ -1148,6 +1150,10 @@ readGuiParam(){
 	
 	IniRead, font, %iniFile%, config, font, %fontDefault%
 	IniRead, fontsize, %iniFile%, config, fontsize, %fontsizeDefault%
+	
+	;DPIScale correction:
+	windowWidth := Round(windowWidth * 96/A_ScreenDPI)
+	windowHeight := Round(windowHeight * 96/A_ScreenDPI)
 
 	return
 }
