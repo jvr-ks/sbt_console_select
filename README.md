@@ -50,6 +50,7 @@ This code is executed by the REPL everytime the dummy replcommandN = --load the 
 is reached, i.e. when on of the replLoadHotkeys is pressed.  
 The \[Config-file] must contain "replcommandN = --load the codeExec--"  
 preferable as the last command!   
+Only one open SBT-REPL-console window is allowed at a time!  
   
 Example code:  
   
@@ -260,6 +261,6 @@ Copyright (c) 2020 J. v. Roos
 
 
 ##### Virus check at Virustotal 
-[Check here](https://www.virustotal.com/gui/url/ff99979467dfc66771a6fc4ea2525f0071804ae60257147bee1b05f626c48eb8/detection/u-ff99979467dfc66771a6fc4ea2525f0071804ae60257147bee1b05f626c48eb8-1625493123
+[Check here](https://www.virustotal.com/gui/url/ff99979467dfc66771a6fc4ea2525f0071804ae60257147bee1b05f626c48eb8/detection/u-ff99979467dfc66771a6fc4ea2525f0071804ae60257147bee1b05f626c48eb8-1625559585
 )  
 Use [CTRL] + Click to open in a new window! 
