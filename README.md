@@ -105,6 +105,7 @@ SCALA_HOME can be set by appending the path to the Java-path with a "#"-separato
 ##### App status  
 * Usable, but work in progress!  
 * Executable is **64bit** now
+* TODO: Name the entries
 
 ##### Remarks
 * Do not change the Console-Window if the last command has not started!  
@@ -261,6 +262,6 @@ Copyright (c) 2020 J. v. Roos
 
 
 ##### Virus check at Virustotal 
-[Check here](https://www.virustotal.com/gui/url/ff99979467dfc66771a6fc4ea2525f0071804ae60257147bee1b05f626c48eb8/detection/u-ff99979467dfc66771a6fc4ea2525f0071804ae60257147bee1b05f626c48eb8-1625559585
+[Check here](https://www.virustotal.com/gui/url/ff99979467dfc66771a6fc4ea2525f0071804ae60257147bee1b05f626c48eb8/detection/u-ff99979467dfc66771a6fc4ea2525f0071804ae60257147bee1b05f626c48eb8-1625613149
 )  
 Use [CTRL] + Click to open in a new window! 

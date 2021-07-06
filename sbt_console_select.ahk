@@ -54,7 +54,7 @@ OwnPID := DllCall("GetCurrentProcessId")
 msgDefault := ""
 
 appName := "sbt_console_select"
-appVersion := "0.154"
+appVersion := "0.155"
 app := appName . " " . appVersion
 
 SetWorkingDir, %A_ScriptDir%
@@ -202,6 +202,7 @@ registerWindow(){
 }
 ;******************************** checkFocus ********************************
 checkFocus(){
+	global hMain
 	global activeWin
 	global windowPosX
 	global windowPosY
@@ -219,10 +220,7 @@ checkFocus(){
 		static wOld := 0
 		static hOld := 0
 
-		gui guiMain:+LastFound
-		WinGet hwnd1,ID
-
-		WinGetPosEx(hwnd1,xn1,yn1,wn1,hn1,Offset_X1,Offset_Y1)
+		WinGetPosEx(hMain,xn1,yn1,wn1,hn1,Offset_X1,Offset_Y1)
 		hn1 := hn1 - 129
 		xn1 := xn1 + Offset_X1
 		
@@ -631,6 +629,7 @@ readShortcuts(){
 }
 ;*********************************** mainWindow ******************************
 mainWindow(hide := false) {
+	global hMain
 	global windowPosX
 	global windowPosY
 	global windowWidth
