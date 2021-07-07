@@ -53,8 +53,9 @@ OwnPID := DllCall("GetCurrentProcessId")
 
 msgDefault := ""
 
+;---------------------------------- appName ----------------------------------
 appName := "sbt_console_select"
-appVersion := "0.155"
+appVersion := "0.156"
 app := appName . " " . appVersion
 
 SetWorkingDir, %A_ScriptDir%
@@ -87,8 +88,8 @@ fontsize := fontsizeDefault
 
 listWidthDefault := 700
 
-iniFile := "sbt_console_select.ini"
 cmdFile := "sbt_console_select.txt"
+configFile := "sbt_console_select.ini"
 jhomeFile := "sbt_console_select_jhome.txt"
 shortcutsFile  := "sbt_console_select_shortcuts.txt"
 
@@ -99,6 +100,7 @@ filemanagerPathDefault := "%SystemRoot%\explorer.exe"
 emailpath := emailPathDefault
 filemanagerpath := filemanagerPathDefault
 
+;------------------------------------ WSL ------------------------------------
 WSL := "C:\Windows\System32\wsl.exe"
 
 menuhotkeyDefault := "!t"
@@ -122,7 +124,7 @@ exitHotkey := exitHotkeyDefault
 javaTool := ""
 javaOpts := ""
 
-; *********** Gui parameter ***********
+;------------------------------- Gui parameter -------------------------------
 activeWin := 0
 
 windowPosX := 0
@@ -134,20 +136,20 @@ windowPosFixed := false
 
 windowWidthDefault := Round(A_ScreenWidth/2)
 windowHeightDefault := Round(A_ScreenHeight/2)
-; *************************************
-
-startcmdArr := []
+;----------------------------------------------------------------------------
+entryNameArr := {}
+entryIndexArr := []
 directoriesArr := []
-javaHomeArr := []
-javaNameArr := []
+startcmdArr := []
+javaHomeArr := {}
+javaIndexArr := []
 javaOptsArr := []
 javaToolArr := []
 shortcutsArr := {}
 replcommandsArr := []
-
-; *** Params
+;---------------------------------- Params ----------------------------------
 hideOnStartup := false
-autostartNumber := 0
+autoselectName := ""	
 
 MouseGetPos, posXsave, posYsave
 
@@ -157,7 +159,7 @@ Loop % A_Args.Length()
 		exit()
 	
 	if(eq(SubStr(A_Args[A_index],-3,4),".ini"))
-		iniFile := A_Args[A_index]
+		configFile := A_Args[A_index]
 		
 	if(eq(SubStr(A_Args[A_index],-3,4),".txt"))
 		cmdFile := A_Args[A_index]
@@ -168,13 +170,19 @@ Loop % A_Args.Length()
 	
 	FoundPos := RegExMatch(A_Args[A_index], "\d+" , argsParam)
 	if(FoundPos > 0){
-		autostartNumber := argsParam
+		msgbox, Entry selection by number is not supported anymore, please use an entry-name instead!
+		exit()
 	}
 	
+	FoundPos := RegExMatch(A_Args[A_index], "\[.*?]" , argsParam)
+	if(FoundPos > 0){
+		autoSelectName := A_Args[A_index]
+		msgbox, % autoselectName
+	}
 }
 
-iniFile := resolvepath(wrkDir,iniFile)
 cmdFile := resolvepath(wrkDir,cmdFile)
+configFile := resolvepath(wrkDir,configFile)
 jhomeFile := resolvepath(wrkDir,jhomeFile)
 shortcutsFile := resolvepath(wrkDir,shortcutsFile)
 
@@ -186,12 +194,114 @@ readGuiParam()
 if (!hideOnStartup){
 	mainWindow()
 } else {
-	msg1 := "Command-file: " . cmdFile . "`,Config-file: " . iniFile . "`,Menu-hotkey is: " . hotkeyToText(menuhotkey)
+	msg1 := "Command-file: " . cmdFile . "`,Config-file: " . configFile . "`,Menu-hotkey is: " . hotkeyToText(menuhotkey)
 	tipTopTime(msg1, 4000)
 	mainWindow(hideOnStartup)
 }
 	
 return
+;-------------------------------- mainWindow --------------------------------
+mainWindow(hide := false) {
+	global hMain
+	global windowPosX
+	global windowPosY
+	global windowWidth
+	global windowHeight
+	global font
+	global fontsize
+	global wrkDir
+	
+	global cmdFile
+	global configFile
+	global shortcutsFile
+	global jhomeFile
+	
+	global entryNameArr
+	global entryIndexArr
+	global directoriesArr
+	global startcmdArr
+	global javaHomeArr
+	global javaIndexArr
+	global javaToolArr
+	global javaOptsArr
+	
+
+	global app
+	global appName
+	global posXsave
+	global posYsave
+	global appVersion
+	global menuhotkey
+	global exitHotkey
+
+	global LV1
+	global OwnPID
+	global listWidthDefault
+	global msgDefault
+	global autoselectName
+	
+	Menu, Tray, UseErrorLevel   ; This affects all menus, not just the tray.
+	
+	Menu, MainMenu, DeleteAll
+	Menu, MainMenuEdit, DeleteAll
+	
+	Menu, MainMenuEdit,Add,Edit Command-file: "%cmdFile%",editCmdFile
+	Menu, MainMenuEdit,Add,Edit Config-file: "%configFile%",editConfigFile
+	Menu, MainMenuEdit,Add,Edit Shortcuts-file: "%shortcutsFile%",editShortcutsFile
+	Menu, MainMenuEdit,Add,Edit JavaHome-file: "%jhomeFile%",editJHomeFile
+
+	Menu, MainMenu, NoDefault
+	Menu, MainMenu, Add,Edit,:MainMenuEdit
+	Menu, MainMenu, Add,Github,openGithubPage
+	exitText := "Close app and remove it from memory!" 
+	Menu, MainMenu, Add,%exitText%,exit
+	
+	Gui,guiMain:New,+E0x08000000 +OwnDialogs +LastFound MaximizeBox HwndhMain +Resize, %app%
+	
+	Gui, guiMain:Font, s%fontsize%, %font%
+
+	xStart := 5
+	yStart := 5
+	linesInList := directoriesArr.length()
+	Gui, Add, ListView, x%xStart% y%yStart% r%linesInList% w%listWidthDefault% gLVCommands vLV1 Grid AltSubmit -Multi, |Name|Directory|Command|JDK|JAVA_OPTS|JAVA_TOOL_OPTIONS
+
+	Loop % directoriesArr.length()	
+	{
+		LV_Add("",A_index,entryIndexArr[A_index],directoriesArr[A_index], startcmdArr[A_index], javaIndexArr[A_index], javaOptsArr[A_index], javaToolArr[A_index])
+	}
+
+	LV_ModifyCol(1,"Auto Integer")
+	LV_ModifyCol(2,"Auto")
+	LV_ModifyCol(3,"Auto")
+	LV_ModifyCol(4,"Auto")
+	LV_ModifyCol(5,"Auto")
+	LV_ModifyCol(6,"Auto")
+	LV_ModifyCol(7,"Auto")
+	
+	Gui, guiMain:Add, StatusBar,,
+	
+	showMessage("", msgDefault)
+	
+	Gui, guiMain:Menu, MainMenu
+		
+	if (!hide){
+		checkVersionFromGithub()
+		
+		setTimer,checkFocus,3000
+		setTimer,registerWindow,-500
+		Gui, guiMain:Show, x%windowPosX% y%windowPosY% w%windowWidth% h%windowHeight%
+	}
+	
+	if (autoselectName != ""){
+		hideWindow()
+		runInDir(entryNameArr[autoselectName])
+		autoselectName := ""
+	}
+	OnMessage(0x200, "WM_MOUSEMOVE")
+	OnMessage(0x2a3, "WM_MOUSELEAVE")
+
+	return
+}
 ;------------------------------ registerWindow ------------------------------
 registerWindow(){
 	global activeWin
@@ -209,7 +319,7 @@ checkFocus(){
 	global windowWidth
 	global windowHeight
 
-	global iniFile
+	global configFile
 
 	h := WinActive("A")
 	if (activeWin != h){
@@ -238,11 +348,11 @@ checkFocus(){
 			wOld := wn1
 			hOld := hn1
 			
-			IniWrite, %xn1% , %iniFile%, config, windowPosX
-			IniWrite, %yn1%, %iniFile%, config, windowPosY
+			IniWrite, %xn1% , %configFile%, config, windowPosX
+			IniWrite, %yn1%, %configFile%, config, windowPosY
 			
-			IniWrite, %wn1% , %iniFile%, config, windowWidth
-			IniWrite, %hn1%, %iniFile%, config, windowHeight
+			IniWrite, %wn1% , %configFile%, config, windowWidth
+			IniWrite, %hn1%, %configFile%, config, windowHeight
 		}
 	}
 	
@@ -251,7 +361,7 @@ checkFocus(){
 ;*********************************** readIni ******************************
 readIni(){
 	global msgDefault
-	global iniFile
+	global configFile
 	global menuhotkeyDefault
 	global menuhotkey
 	global replLoadHotkeyDefault
@@ -283,39 +393,39 @@ readIni(){
 	
 
 ; read Hotkey definition
-	IniRead, menuhotkey, %iniFile%, hotkeys, menuHotkey , %menuhotkeyDefault%
+	IniRead, menuhotkey, %configFile%, hotkeys, menuHotkey , %menuhotkeyDefault%
 	Hotkey, %menuhotkey%, showWindowRefreshed
 	
-	IniRead, replLoadHotkey, %iniFile%, hotkeys, replLoadHotkey , %replLoadHotkeyDefault%
+	IniRead, replLoadHotkey, %configFile%, hotkeys, replLoadHotkey , %replLoadHotkeyDefault%
 	Hotkey, %replLoadHotkey%, replLoad
 	
-	IniRead, replSelectLoadhotkey, %iniFile%, hotkeys, replSelectloadhot , %replSelectLoadhotkeyDefault%
+	IniRead, replSelectLoadhotkey, %configFile%, hotkeys, replSelectloadhot , %replSelectLoadhotkeyDefault%
 	Hotkey, %replSelectLoadhotkey%, replSelectLoad
 	
-	IniRead, replSelectLoadExecHotkey, %iniFile%, hotkeys, replSelectloadhot , %replSelectLoadExecHotkeyDefault%
+	IniRead, replSelectLoadExecHotkey, %configFile%, hotkeys, replSelectloadhot , %replSelectLoadExecHotkeyDefault%
 	Hotkey, %replSelectLoadExecHotkey%, replSelectLoadExec
 	
-	IniRead, replResethotkey, %iniFile%, hotkeys, replResethot , %replResethotkeyDefault%
+	IniRead, replResethotkey, %configFile%, hotkeys, replResethot , %replResethotkeyDefault%
 	Hotkey, %replResethotkey%, replReset
 	
-	IniRead, exitHotkey, %iniFile%, hotkeys, exitHotkey , %exitHotkeyDefault%
+	IniRead, exitHotkey, %configFile%, hotkeys, exitHotkey , %exitHotkeyDefault%
 	Hotkey, %exitHotkey%, sendExit
 	
-	IniRead, filemanagerpath, %iniFile%, external, filemanagerpath , %filemanagerpathDefault%
-	IniRead, emailpath, %iniFile%, external, emailpath, %emailPathDefault%
+	IniRead, filemanagerpath, %configFile%, external, filemanagerpath , %filemanagerpathDefault%
+	IniRead, emailpath, %configFile%, external, emailpath, %emailPathDefault%
 	
-	IniRead, font, %iniFile%, config, font, %fontDefault%
-	IniRead, fontsize, %iniFile%, config, fontsize, %fontsizeDefault%
+	IniRead, font, %configFile%, config, font, %fontDefault%
+	IniRead, fontsize, %configFile%, config, fontsize, %fontsizeDefault%
 	
-	IniRead, javaOpts,%iniFile%,config,JAVA_OPTS,%A_Space%
-	IniRead, javaTool,%iniFile%,config,JAVA_TOOL_OPTIONS,%A_Space%
+	IniRead, javaOpts,%configFile%,config,JAVA_OPTS,%A_Space%
+	IniRead, javaTool,%configFile%,config,JAVA_TOOL_OPTIONS,%A_Space%
 	
 	blank := "-"
 	replcommandsArr := []
 	Loop, 10
 	{
 		replcommand%A_Index% := blank
-		IniRead, replcommand%A_Index%, %iniFile%, replcommands, replcommand%A_Index%,%blank%
+		IniRead, replcommand%A_Index%, %configFile%, replcommands, replcommand%A_Index%,%blank%
 		if (replcommand%A_Index% != blank)
 			replcommandsArr.push(replcommand%A_Index%)
 	}
@@ -523,17 +633,28 @@ replReset(){
 readCmd(){
 	global wrkDir
 	global cmdFile
+	global configFile
+	global shortcutsFile
+	global jhomeFile
+	
+	global entryNameArr
+	global entryIndexArr
 	global directoriesArr
 	global startcmdArr
-	global javaNameArr
+	global javaHomeArr
+	global javaIndexArr
 	global javaToolArr
 	global javaOptsArr
 	
 	
 ; read path and sbtstarttype
-	startcmdArr := []
+	entryNameArr := {}
+	entryIndexArr := []
+	entryIndexArr := []
 	directoriesArr := []
-	javaNameArr := []
+	startcmdArr := []
+	javaHomeArr := {}
+	javaIndexArr := []
 	javaOptsArr := []
 	javaToolArr := []
 
@@ -547,19 +668,30 @@ readCmd(){
 		
 			Loop, parse, A_LoopReadLine, %A_Tab%`,
 				{
-					if (A_Index = 1)
-						directoriesArr[LineNumber] := A_LoopField
-
+					if (A_Index = 1){
+						s := A_LoopField
+						if (s == "-auto-")
+							s := "[entry" . LineNumber . "]"
+							
+						entryNameArr[s] := LineNumber
+						entryIndexArr[LineNumber] := s
+					}
+						
 					if (A_Index = 2)
-						startcmdArr[LineNumber] := A_LoopField
+						directoriesArr[LineNumber] := A_LoopField
 						
 					if (A_Index = 3)
-						javaNameArr[LineNumber] := A_LoopField
+						startcmdArr[LineNumber] := A_LoopField
 						
-					if (A_Index = 4)
-						javaOptsArr[LineNumber] := A_LoopField
+					if (A_Index = 4){
+						javaHomeArr[A_LoopField] := LineNumber
+						javaIndexArr[LineNumber] := A_LoopField
+					}
 						
 					if (A_Index = 5)
+						javaOptsArr[LineNumber] := A_LoopField
+						
+					if (A_Index = 6)
 						javaToolArr[LineNumber] := A_LoopField
 				}
 		}
@@ -575,7 +707,7 @@ readJhome(){
 	global jhomeFile
 	global javaHomeArr
 	
-	javaHomeArr := []
+	javaHomeArr := {}
 
 	Loop, read, %jhomeFile%
 	{
@@ -627,104 +759,16 @@ readShortcuts(){
 	
 	return
 }
-;*********************************** mainWindow ******************************
-mainWindow(hide := false) {
-	global hMain
-	global windowPosX
-	global windowPosY
-	global windowWidth
-	global windowHeight
-	global font
-	global fontsize
-	global wrkDir
-	global cmdFile
-	global directoriesArr
-	global startcmdArr
-	global javaNameArr
-	global javaOptsArr
-	global javaToolArr
-	global jhomeFile
-	global shortcutsFile
-	global app
-	global appName
-	global posXsave
-	global posYsave
-	global appVersion
-	global menuhotkey
-	global exitHotkey
 
-	global LV1
-	global OwnPID
-	global listWidthDefault
-	global msgDefault
-	global autostartNumber
-	
-	Menu, Tray, UseErrorLevel   ; This affects all menus, not just the tray.
-	
-	Menu, MainMenu, DeleteAll
-	Menu, MainMenuEdit, DeleteAll
-	
-	Menu, MainMenuEdit,Add,Edit Command-file: "%cmdFile%",editCmdFile
-	Menu, MainMenuEdit,Add,Edit Config-file: "%cmdFile%",editConfigFile
-	Menu, MainMenuEdit,Add,Edit Shortcuts-file: "%shortcutsFile%",editShortcutsFile
-	Menu, MainMenuEdit,Add,Edit JavaHome-file: "%jhomeFile%",editJHomeFile
-
-	Menu, MainMenu, NoDefault
-	Menu, MainMenu, Add,Edit,:MainMenuEdit
-	Menu, MainMenu, Add,Github,openGithubPage
-	exitText := "Close app and remove it from memory!" 
-	Menu, MainMenu, Add,%exitText%,exit
-	
-	Gui,guiMain:New,+E0x08000000 +OwnDialogs +LastFound MaximizeBox HwndhMain +Resize, %app%
-	
-	Gui, guiMain:Font, s%fontsize%, %font%
-
-	xStart := 5
-	yStart := 5
-	linesInList := directoriesArr.length()
-	Gui, Add, ListView, x%xStart% y%yStart% r%linesInList% w%listWidthDefault% gLVCommands vLV1 Grid AltSubmit -Multi, |Directory|Command|JDK|JAVA_OPTS|JAVA_TOOL_OPTIONS
-
-	Loop % directoriesArr.length()	
-	{
-		LV_Add("",A_index,directoriesArr[A_index], startcmdArr[A_index], javaNameArr[A_index], javaOptsArr[A_index], javaToolArr[A_index])
-	}
-
-	LV_ModifyCol(1,"Auto Integer")
-	LV_ModifyCol(2,"Auto")
-	LV_ModifyCol(3,"Auto")
-	LV_ModifyCol(4,"Auto")
-	LV_ModifyCol(5,"Auto")
-	LV_ModifyCol(6,"Auto")
-	
-	Gui, guiMain:Add, StatusBar,,
-	
-	showMessage("", msgDefault)
-	
-	Gui, guiMain:Menu, MainMenu
-		
-	if (!hide){
-		checkVersionFromGithub()
-		
-		setTimer,checkFocus,3000
-		setTimer,registerWindow,-500
-		Gui, guiMain:Show, x%windowPosX% y%windowPosY% w%windowWidth% h%windowHeight%
-	}
-	
-	if (autostartNumber != 0){
-		runInDir(autostartNumber)
-		autostartNumber := 0
-	}
-	OnMessage(0x200, "WM_MOUSEMOVE")
-	OnMessage(0x2a3, "WM_MOUSELEAVE")
-
-	return
-}
 ;-------------------------------- refreshGui --------------------------------
 refreshGui(){
 	global appName
+	global entryNameArr
+	global entryIndexArr
 	global directoriesArr
 	global startcmdArr
-	global javaNameArr
+	global javaHomeArr
+	global javaIndexArr
 	global javaOptsArr
 	global javaToolArr
 
@@ -732,7 +776,7 @@ refreshGui(){
 	
 	Loop % directoriesArr.length()	
 	{
-		LV_Add("",A_index,directoriesArr[A_index], startcmdArr[A_index], javaNameArr[A_index], javaOptsArr[A_index], javaToolArr[A_index])
+		LV_Add("",A_index,entryIndexArr[A_index],directoriesArr[A_index], startcmdArr[A_index], javaIndexArr[A_index], javaOptsArr[A_index], javaToolArr[A_index])
 	}
 	
 	return
@@ -803,20 +847,24 @@ runInDir(lineNumber){
 	global holdtime
 	global sbtstarttype
 	global lastOpendTitle
-	global directoriesArr
-	global startcmdArr
 	global filemanagerpath
 	global WSL
-	global javaNameArr
-	global javaOptsArr
-	global javaToolArr
+	
+	global entryNameArr
+	global entryIndexArr
+	global directoriesArr
+	global startcmdArr
 	global javaHomeArr
+	global javaIndexArr
+	global javaToolArr
+	global javaOptsArr
+	
 	global replSelectLastDirUsed
 	global javaTool
 	global javaOpts
 
 
-	lastOpendTitle := "Console: " . javaNameArr[lineNumber] . " (id: " . A_Now . ")"
+	lastOpendTitle := "Console: " . javaIndexArr[lineNumber] . " (id: " . A_Now . ")"
 	
 	d := cvtPath(directoriesArr[lineNumber])
 	replSelectLastDirUsed := d
@@ -847,7 +895,7 @@ runInDir(lineNumber){
 				sleep, 3000
 			}
 			
-			jHArr := javaHomeArr[javaNameArr[lineNumber]]
+			jHArr := javaHomeArr[javaIndexArr[lineNumber]]
 			jSplit := StrSplit(jHArr,"#") ; JDK,SDK
 			jH := jSplit[1]
 			sH := jSplit[2]
@@ -1047,9 +1095,9 @@ editCmdFile() {
 }
 ;------------------------------ editConfigFile ------------------------------
 editConfigFile() {
-	global iniFile
+	global configFile
 
-	runWait,%iniFile%,,max
+	runWait,%configFile%,,max
 	
 	showWindowRefreshed()
 	
@@ -1119,7 +1167,7 @@ shortcut(s){
 }
 ;------------------------------- readGuiParam -------------------------------
 readGuiParam(){
-	global iniFile
+	global configFile
 	global fontDefault
 	global font
 	global fontsizeDefault
@@ -1133,22 +1181,22 @@ readGuiParam(){
 	global windowPosFixed
 	
 	
-	IniRead, windowPosFixed, %iniFile%, config, windowPosFixed, 0
+	IniRead, windowPosFixed, %configFile%, config, windowPosFixed, 0
 	
-	IniRead, windowPosX, %iniFile%, config, windowPosX, 0
+	IniRead, windowPosX, %configFile%, config, windowPosX, 0
 		
-	IniRead, windowPosY, %iniFile%, config, windowPosY, 0
+	IniRead, windowPosY, %configFile%, config, windowPosY, 0
 		
-	IniRead, windowWidth, %iniFile%, config, windowWidth, %windowWidthDefault%
+	IniRead, windowWidth, %configFile%, config, windowWidth, %windowWidthDefault%
 	if (windowWidth == 0)
 		windowWidth := windowWidthDefault
 	
-	IniRead, windowHeight, %iniFile%, config, windowHeight, %windowHeightDefault%
+	IniRead, windowHeight, %configFile%, config, windowHeight, %windowHeightDefault%
 	if (windowHeight < 0)
 		windowHeight := windowHeightDefault
 	
-	IniRead, font, %iniFile%, config, font, %fontDefault%
-	IniRead, fontsize, %iniFile%, config, fontsize, %fontsizeDefault%
+	IniRead, font, %configFile%, config, font, %fontDefault%
+	IniRead, fontsize, %configFile%, config, fontsize, %fontsizeDefault%
 	
 	;DPIScale correction:
 	windowWidth := Round(windowWidth * 96/A_ScreenDPI)
@@ -1159,18 +1207,18 @@ readGuiParam(){
 ;******************************* fixWindowPos *******************************
 fixWindowPos(){
 	global windowPosFixed
-	global iniFile
+	global configFile
 	
 	windowPosFixed := true
-	IniWrite, %windowPosFixed% , %iniFile%, config, windowPosFixed
+	IniWrite, %windowPosFixed% , %configFile%, config, windowPosFixed
 }
 ;***************************** releaseWindowPos *****************************
 releaseWindowPos(){
 	global windowPosFixed
-	global iniFile
+	global configFile
 
 	windowPosFixed := false
-	IniWrite, %windowPosFixed% , %iniFile%, config, windowPosFixed
+	IniWrite, %windowPosFixed% , %configFile%, config, windowPosFixed
 }
 ;*************************** guiMainGuiContextMenu ***************************
 guiMainGuiContextMenu(GuiHwnd, CtrlHwnd, EventInfo, IsRightClick, X, Y){

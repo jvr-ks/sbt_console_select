@@ -105,7 +105,7 @@ SCALA_HOME can be set by appending the path to the Java-path with a "#"-separato
 ##### App status  
 * Usable, but work in progress!  
 * Executable is **64bit** now
-* TODO: Name the entries
+* TODO: ~~Name the entries~~
 
 ##### Remarks
 * Do not change the Console-Window if the last command has not started!  
@@ -117,6 +117,10 @@ SCALA_HOME can be set by appending the path to the Java-path with a "#"-separato
 
 ##### Latest changes  
 
+* Autoselect changed to name instead of number, example: "sbt_console_select.exe [Cats]"
+Name must be surrounded by "[]"
+If autoselect is not used, entry should contain "-auto-", which is replaced by "[entryNumber]"
+* dpiScale moved
 * Moved GraalVM to "C:\shared\*" (file "sbt_console_select_jhome.txt")
 * replLoadHotkey mechanism changed!
 * JAVA_OPTS and JAVA_TOOL_OPTIONS   
@@ -262,6 +266,6 @@ Copyright (c) 2020 J. v. Roos
 
 
 ##### Virus check at Virustotal 
-[Check here](https://www.virustotal.com/gui/url/ff99979467dfc66771a6fc4ea2525f0071804ae60257147bee1b05f626c48eb8/detection/u-ff99979467dfc66771a6fc4ea2525f0071804ae60257147bee1b05f626c48eb8-1625613149
+[Check here](https://www.virustotal.com/gui/url/ff99979467dfc66771a6fc4ea2525f0071804ae60257147bee1b05f626c48eb8/detection/u-ff99979467dfc66771a6fc4ea2525f0071804ae60257147bee1b05f626c48eb8-1625670962
 )  
 Use [CTRL] + Click to open in a new window! 
