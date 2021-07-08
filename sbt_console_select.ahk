@@ -55,7 +55,7 @@ msgDefault := ""
 
 ;---------------------------------- appName ----------------------------------
 appName := "sbt_console_select"
-appVersion := "0.157"
+appVersion := "0.158"
 app := appName . " " . appVersion
 
 SetWorkingDir, %A_ScriptDir%
@@ -168,16 +168,16 @@ Loop % A_Args.Length()
 		hideOnStartup := true
 	}
 	
-	FoundPos := RegExMatch(A_Args[A_index], "\d+" , argsParam)
+	FoundPos := RegExMatch(A_Args[A_index], "^[0-9]+$" , argsParam)
 	if(FoundPos > 0){
 		msgbox, Entry selection by number is not supported anymore, please use an entry-name instead!
 		exit()
 	}
 	
-	FoundPos := RegExMatch(A_Args[A_index], "\[.*?]" , argsParam)
+	FoundPos := RegExMatch(A_Args[A_index], "\[.+?]" , argsParam)
 	if(FoundPos > 0){
-		autoSelectName := A_Args[A_index]
-		;msgbox, % autoselectName
+		autoSelectName := argsParam
+		msgbox, % autoselectName
 	}
 }
 
