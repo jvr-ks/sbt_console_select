@@ -118,7 +118,8 @@ SCALA_HOME can be set by appending the path to the Java-path with a "#"-separato
 ##### Latest changes  
 
 * Autoselect changed to name instead of number, example: "sbt_console_select.exe [Cats]"
-Name must be surrounded by "[]"
+Name must be surrounded by "[]"  
+The name may contain blanks but must be called with quotationmarks then, so it is a good idea not to use blanks!   
 If autoselect is not used, entry should contain "-auto-", which is replaced by "[entryNumber]"
 * dpiScale moved
 * Moved GraalVM to "C:\shared\*" (file "sbt_console_select_jhome.txt")

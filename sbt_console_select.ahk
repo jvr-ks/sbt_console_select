@@ -55,7 +55,7 @@ msgDefault := ""
 
 ;---------------------------------- appName ----------------------------------
 appName := "sbt_console_select"
-appVersion := "0.158"
+appVersion := "0.159"
 app := appName . " " . appVersion
 
 SetWorkingDir, %A_ScriptDir%
@@ -177,7 +177,7 @@ Loop % A_Args.Length()
 	FoundPos := RegExMatch(A_Args[A_index], "\[.+?]" , argsParam)
 	if(FoundPos > 0){
 		autoSelectName := argsParam
-		msgbox, % autoselectName
+		;msgbox, % autoselectName
 	}
 }
 
