@@ -1,20 +1,20 @@
 [testareaQuickVm11],[scL]\__testarea,sbt consoleQuick,graalvm11_21.0.0.2
+[Scala3_Learn],[scL]\scala3,sbt consoleQuick,graalvm11_21.0.0.2
+[Akka],[scL]\akka,sbt console,graalvm11_21.0.0.2
+[Cats],[scL]\cats,sbt consoleQuick,graalvm11_21.0.0.2
+[Catseffect],[scL]\catseffect,sbt consoleQuick,graalvm11_21.0.0.2
 [playWithPrimes],[pWP],sbt ~run,graalvm11_21.0.0.2,-Xms4G -Xmx12G -XX:+HeapDumpOnOutOfMemoryError,-Dfile.encoding=UTF-8
 -auto-,[sc]\scalafxAsScript,sbt consoleQuick,graalvm11_21.0.0.2
 -auto-,[scL]\__testarea,sbt consoleQuick,graalvm8_21.0.0.2
 -auto-,[scL]\__testarea,scala,graalvm11_21.0.0.2
 -auto-,[scL]\__testarea,amm
 -auto-,[sc]\scalafxAsScript,amm
-[Akka],[scL]\akka,sbt console,graalvm11_21.0.0.2
 -auto-,[scL]\akka,sbt ~run,graalvm11_21.0.0.2
 -auto-,[scL]\akka,sbt consoleQuick,graalvm11_21.0.0.2
-[Cats],[scL]\cats,sbt consoleQuick,graalvm11_21.0.0.2
-[Catseffect],[scL]\catseffect,sbt consoleQuick,graalvm11_21.0.0.2
 -auto-,[scL]\cats,sbt consoleProject#(Compile / fullClasspath).eval.files foreach println,graalvm11_21.0.0.2
 -auto-,[scL]\akka,sbt consoleQuick,jdk8
 -auto-,[scN],sbt consoleQuick,graalvm11_21.0.0.2
 -auto-,[alg]\_HKB\_server\wp8\allfiles,sbt consoleQuick,graalvm11_20.3.0
 -auto-,[scL]\scalafxTestJava8,sbt -sbt-version 1.4.6 consoleQuick#:load scalafxTest2.sc#+close+,graalvm8_21.0.0.2
 -auto-,[scL]\scalafxTestJava11,sbt consoleQuick,graalvm11_21.0.0.2
-[Scala3_Learn],[scL]\scala3,sbt consoleQuick,graalvm11_21.0.0.2
 -auto-,[scL]\zio,sbt consoleQuick,graalvm11_21.0.0.2
