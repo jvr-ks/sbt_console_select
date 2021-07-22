@@ -29,7 +29,7 @@ or
 to be used with the project [startdelayed](https://github.com/jvr-ks/startdelayed):  
 "create_sbt_console_select_exe_link_hidewindow.bat"
 
-or  
+or manually:   
 -> "sbt_console_select - Shortcut.lnk" -> rightclick -> properties -> target -> add "hidewindow" as a parameter,  
 (and optional the Command-file and Config-file path),  
 then start with the hotkey.  
