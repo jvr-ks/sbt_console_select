@@ -1,6 +1,7 @@
 [testareaQuickVm11],[scL]\__testarea,sbt consoleQuick,graalvm11_21.0.0.2
 [Scala3_Learn],[scL]\scala3,sbt consoleQuick,graalvm11_21.0.0.2
 [Akka],[scL]\akka,sbt console,graalvm11_21.0.0.2
+[Akkatyped],[scL]\akkatyped,sbt console,graalvm11_21.0.0.2
 [Cats],[scL]\cats,sbt consoleQuick,graalvm11_21.0.0.2
 [Catseffect],[scL]\catseffect,sbt consoleQuick,graalvm11_21.0.0.2
 [playWithPrimes],[pWP],sbt ~run,graalvm11_21.0.0.2,-Xms4G -Xmx12G -XX:+HeapDumpOnOutOfMemoryError,-Dfile.encoding=UTF-8
