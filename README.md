@@ -23,6 +23,13 @@ or
 or  
 * create a shortcut of "sbt_console_select.exe" in the windows-autostart folder ("shell:startup")  
 and add "hidewindow" as a parameter.  
+Two powershell scripts included:  
+"create_sbt_console_select_exe_link_hidewindow_in_autostartfolder.bat"
+or  
+to be used with the project [startdelayed](https://github.com/jvr-ks/startdelayed):  
+"create_sbt_console_select_exe_link_hidewindow.bat"
+
+or  
 -> "sbt_console_select - Shortcut.lnk" -> rightclick -> properties -> target -> add "hidewindow" as a parameter,  
 (and optional the Command-file and Config-file path),  
 then start with the hotkey.  
@@ -267,6 +274,6 @@ Copyright (c) 2020 J. v. Roos
 
 
 ##### Virus check at Virustotal 
-[Check here](https://www.virustotal.com/gui/url/ff99979467dfc66771a6fc4ea2525f0071804ae60257147bee1b05f626c48eb8/detection/u-ff99979467dfc66771a6fc4ea2525f0071804ae60257147bee1b05f626c48eb8-1625741821
+[Check here](https://www.virustotal.com/gui/url/ff99979467dfc66771a6fc4ea2525f0071804ae60257147bee1b05f626c48eb8/detection/u-ff99979467dfc66771a6fc4ea2525f0071804ae60257147bee1b05f626c48eb8-1626961507
 )  
 Use [CTRL] + Click to open in a new window! 

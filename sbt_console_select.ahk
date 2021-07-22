@@ -55,7 +55,7 @@ msgDefault := ""
 
 ;---------------------------------- appName ----------------------------------
 appName := "sbt_console_select"
-appVersion := "0.159"
+appVersion := "0.160"
 app := appName . " " . appVersion
 
 SetWorkingDir, %A_ScriptDir%
@@ -149,11 +149,11 @@ shortcutsArr := {}
 replcommandsArr := []
 ;---------------------------------- Params ----------------------------------
 hideOnStartup := false
-autoselectName := ""	
+autoselectName := ""
 
 MouseGetPos, posXsave, posYsave
 
-Loop % A_Args.Length()	
+Loop % A_Args.Length()
 {
 	if(eq(A_Args[A_index],"remove"))
 		exit()
