@@ -80,7 +80,7 @@ global variables
 
 appName := "Sbt_console_select"
 appnameLower := "sbt_console_select"
-appVersion := "0.235"
+appVersion := "0.236"
 app := appName . " " . appVersion
 extension := ".exe"
 
