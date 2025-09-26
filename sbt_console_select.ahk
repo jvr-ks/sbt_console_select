@@ -1355,7 +1355,7 @@ runInDir(lineNumber){
           sendTextViaClipboard(additionalCommand)
         
         case "WT":
-          sendTextViaClipboard(additionalCommand)
+          sendTextViaClipboard(additionalCommand, lastPid)
       }
     }
 
@@ -1369,7 +1369,7 @@ runInDir(lineNumber){
           sendLinuxClipBoard(startCmd)
         
         case "WT":
-          sendLinuxClipBoard(startCmd)
+          sendTextViaControl(startCmd, lastPid)
       }
     }
     
@@ -1390,7 +1390,7 @@ runInDir(lineNumber){
           } else {
             switch terminalType
             {
-              case "CMD", "%comspec%":
+              case "CMD":
                 sendLinuxClipBoard(param)
                   
               case "WSL":
