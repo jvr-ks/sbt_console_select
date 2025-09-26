@@ -4,7 +4,8 @@
 (Scala3_$WSL$),~/scala3,sbt -Dsbt.server.forcestart=true consoleQuick
 (Scala3_Cousier $WSL$),~/scala3,cs launch scala3
 (Scala3_Cousier Amm $WSL$),~/scala3,cs launch amm
-(Catseffect_consoleQuick $WT$),[sc]\catseffect,sbt consoleQuick
+(Catseffect_consoleQuick_$WT$),[sc]\catseffect,sbt consoleQuick
+(Catseffect_consoleQuick),[sc]\catseffect,sbt consoleQuick
 (Catseffect_consoleTest),[sc]\catseffect,sbt test:consoleQuick
 (Catseffect_consoleQuick_$WSL$),[sc]\catseffect\_deadlock,sbt -Dcats.effect.stackTracingMode=full -Dcats.effect.traceBufferSize=1024 consoleQuick
 (Catseffect_sbt),[sc]\catseffect,sbt

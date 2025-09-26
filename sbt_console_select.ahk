@@ -1313,8 +1313,8 @@ runInDir(lineNumber){
 
       case "WT":
         SetTitleMatchMode, 2
-        run, wt.exe -w 0 nt --title Name: -d %usePath%,%usePath%,max,lastPid
-        cs := "Sbt_console"
+        run, wt.exe -w 0 nt --title %lastOpenedTitle% -d %usePath%,%usePath%,max,lastPid
+        cs := lastOpenedTitle
     }
   
     WinWaitActive, %cs%,,10
@@ -1342,9 +1342,6 @@ runInDir(lineNumber){
         sendLinuxClipBoard("cd " . pathLinux)
 
       case "WT":
-        sleep, 500
-        ;pSendChars("title " . lastOpenedTitle, lastPid)
-        sendTextViaControl("title " . lastOpenedTitle, lastPid)
         sleep, 500
     }
     

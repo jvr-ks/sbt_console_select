@@ -1,3 +1,5 @@
+/** useImports=imports.scsc */
+
 object Main extends IOApp.Simple:
 
   val cp = System.getProperty("file.encoding")
