@@ -917,7 +917,7 @@ replLoadAction(selectAll := false){
 
         if !ErrorLevel
         {
-          winActivate,ahk_id %isWin%
+          winActivate, ahk_pid %lastPid%
         }
 
       } else {
@@ -1321,11 +1321,15 @@ runInDir(lineNumber){
         MsgBox, ERROR in terminalType: %terminalType% !
     }
   
-    WinWaitActive, ahk_pid %lastPid%,,10
+    WinWaitActive, %lastOpenedTitle%,,5
     if ErrorLevel
     {
-        MsgBox, Cannot open window with Pid: %lastPid%!
+      WinWaitActive, ahk_pid %lastPid%,,5
+      if ErrorLevel
+      {
+        MsgBox, Cannot open window with lastOpenedTitle: %lastOpenedTitle% or lastPid: %lastPid%!
         return
+      }
     }
     
     switch terminalType
@@ -1338,7 +1342,7 @@ runInDir(lineNumber){
         sleep, 500
       case "WSL":
         sendLinuxClipBoard("PS1=""${debian_chroot:+($debian_chroot)}\\u@\h \w\a$ """)
-        sendLinuxClipBoard(StrReplace(wsltitlecmd,"§§THE TITLE§§", lastPid))
+        sendLinuxClipBoard(StrReplace(wsltitlecmd,"§§THE TITLE§§", lastOpenedTitle))
         sleep, 3000
         pathLinux := cvtToLinux(replSelectLastDirUsed)
         sendLinuxClipBoard("cd " . pathLinux, lastPid)
