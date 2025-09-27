@@ -61,6 +61,8 @@ license := "
  * Main view element is the ListView LV1.
  * Upon a click guiMainListViewClick() is called.
   --------------------------------------------------------------------------------*
+  Hints:
+  - "sendTextClipBoard" and "sendLinuxClipBoard" are currently identical
 */
 
 ;SetWinDelay, -1
@@ -74,7 +76,7 @@ FileEncoding, UTF-8-RAW
 SetWorkingDir, %A_ScriptDir%
 ; SetKeyDelay, 10, 10
 CoordMode, Mouse, Screen
-
+StringCaseSense, Off
 ;----------------------------- global variables -----------------------------
 global variables
 
@@ -83,6 +85,7 @@ appnameLower := "sbt_console_select"
 appVersion := "0.237"
 app := appName . " " . appVersion
 extension := ".exe"
+terminalType := "CMD"
 
 bit := (A_PtrSize=8 ? "64" : "32")
 if (!A_IsUnicode)
@@ -97,7 +100,6 @@ lastPid := 0
 editTextFileFilename := ""
 editTextFileContent := ""
 
-usingWSL := false
 msgDefault := "Hold key down while clicking: [CTRL] -> open filemanager"
 
 posXsave := 0
@@ -763,7 +765,7 @@ isComment(s){
 ;------------------------------ replLoadAction ------------------------------
 replLoadAction(selectAll := false){
   global replcommandsArr, lastOpenedTitle, replFilePart1, replFilePart2
-  global usingWSL, wslStart, importFileName
+  global terminalType, wslStart, importFileName
   global replSelectLastDirUsed, lastPid
 
   clipSaved := ClipboardAll
@@ -829,15 +831,22 @@ replLoadAction(selectAll := false){
 
           if (isLoad && !comment){
             if (FileExist(replFilePart1)){
-              if (!usingWSL){
-                ; not reliable sending multible underscores!
-                ; sendTextViaControl(":load " . replFilePart1, lastPid)
+             switch terminalType
+              {
+                case "CMD":
                 sendTextClipBoard(":load " . replFilePart1, lastPid)
                 sleep,200
-              } else {
+                
+                case "WT":
+                sendTextClipBoard(":load " . replFilePart1, lastPid)
+                sleep,200
+                
+               case "WSL":
                 sendLinuxClipBoard(":load " . cvtToLinux(replFilePart1), lastPid)
                 sleep,200
               }
+              
+              
             } else {
               msgbox,48,ERROR, File %replFilePart1% not found!
             }
@@ -850,14 +859,16 @@ replLoadAction(selectAll := false){
             if (FileExist(replFilePart2)){
               FileGetSize, fSize, %replFilePart2%
               if (0 + fSize > 6){
-                if (!usingWSL){
-                  ; not reliable sending multible underscores!
-                  ; sendTextViaControl(":load " . replFilePart2, lastPid)
-                  sendTextClipBoard(":load " . replFilePart2, lastPid)
-                  sleep,200
-                } else {
-                  sendLinuxClipBoard(":load " . cvtToLinux(replFilePart2), lastPid)
-                  sleep,200
+                switch terminalType
+                {
+                  case "CMD":
+                    sendTextClipBoard(":load " . replFilePart2, lastPid)
+                    sleep,200
+                  case "WT":
+                    sendTextClipBoard(":load " . replFilePart2, lastPid)
+                  case "WSL":
+                    sendLinuxClipBoard(":load " . cvtToLinux(replFilePart2), lastPid)
+                    sleep,200
                 }
               }
             }
@@ -872,12 +883,16 @@ replLoadAction(selectAll := false){
             if (useImportFile > 0){
               importFileName := m.Value(1)
               if (importFileName != ""){
-                if (!usingWSL){
-                  sendTextViaControl(":load " . importFileName, lastPid)
-                  sleep,200
-                } else {
-                  sendLinuxClipBoard(":load " . cvtToLinux(importFileName), lastPid)
-                  sleep,200
+                switch terminalType
+                {
+                  case "CMD":
+                    sendTextViaControl(":load " . importFileName, lastPid)
+                    sleep,200
+                  case "WT":
+                    sendTextClipBoard(":load " . importFileName, lastPid)
+                  case "WSL":
+                    sendLinuxClipBoard(":load " . cvtToLinux(importFileName), lastPid)
+                    sleep,200
                 }
               }
             }
@@ -938,7 +953,7 @@ cvtToLinux(d){
 }
 ;---------------------------- replSelectLoadExec ----------------------------
 replSelectLoadExec(){
-  ; save part 2-code to file "replPart2.tmp" or delete it, if clipBoard is empty
+  ; save part 2-code to file "replPart2.hs" or delete it, if clipBoard is empty
 
   global replFilePart2
 
@@ -1194,8 +1209,8 @@ sendText(toSend := "", lastPid := 0){
   return
 }
 ;----------------------------- sendTextClipBoard -----------------------------
-sendTextClipBoard(toSend := "", lastPid := 0){
-
+sendTextClipBoard_1(toSend := "", lastPid := 0){
+msgbox, sendTextClipBoard toSend: %toSend% lastPid: %lastPid%
   if (!lastPid){
     clipboard := toSend
     SendInput,{Shift down}{RBUTTON}{Shift up}
@@ -1206,6 +1221,20 @@ sendTextClipBoard(toSend := "", lastPid := 0){
     SendInput,{Shift down}{RBUTTON}{Shift up}
     SendInput,{Enter}
   }
+
+  return
+}
+
+sendTextClipBoard(toSend := "", lastPid := 0){
+  global lastOpenedTitle
+  
+msgbox, sendTextClipBoard toSend: %toSend% lastPid: %lastPid%
+
+  WinWaitActive, %lastOpenedTitle%
+  clipboard := toSend
+  SendInput,{Ctrl down}{v}{Ctrl up}
+  SendInput,{Enter}
+
 
   return
 }
@@ -1231,10 +1260,7 @@ runInDir(lineNumber){
   global configFile
   global entryNameArr, entryIndexArr, directoriesArr, startcmdArr
   global replSelectLastDirUsed, autoselectName, additionalCommand
-  global app, lastPid, wslStart, usingWSL, wsltitlecmd
-
-  usingWSL := false
-  usingWT := false
+  global app, lastPid, wslStart, wsltitlecmd, terminalType
 
   id := ""
 
@@ -1244,10 +1270,11 @@ runInDir(lineNumber){
   id := StrReplace(id,"(","")
   id := StrReplace(id,")","")
 
+
   lastOpenedTitle := id
   
   replSelectLastDirUsed := cvtPath(directoriesArr[lineNumber])
-
+  
   sw := 0
   startApp := ""
   qMark := """"
@@ -1259,8 +1286,6 @@ runInDir(lineNumber){
   if (GetKeyState("Shift", "P"))
     sw := 2
 
-  terminalType="CMD"
-  
   ; switch to WSL
   if (InStr(id, "$WSL$")){
     terminalType := "WSL"
@@ -1293,28 +1318,27 @@ runInDir(lineNumber){
     startCmd := lineArr[1]
     param := lineArr[2]
     usePath := cvtPath(directoriesArr[lineNumber])
+    cs := ""
 
     switch terminalType
     {
       case "CMD":
-        cs := cvtPath("%comspec%")
-        startEnv := cs . " /k"
+        startEnv := cvtPath("%comspec%") . " /k"
         ; remove "JAVA_HOME"
         setEnv := setSystemEnvCmd("", "JAVA_HOME")
         Run, %setEnv%,,min
         
+        cs := cvtPath("%comspec%")
         Run, %startEnv%,%usePath%,max,lastPid
-          
+      case "WT":
+        Run, wt.exe -w 0 nt --title "%lastOpenedTitle%" -d %usePath%,%usePath%,max,lastPid
+        cs := lastOpenedTitle
       case "WSL":
         cs := "wsl.exe"
-        SetTitleMatchMode, 2
         Run, %wslStart%,,max, lastPid
-        sleep, 3000
-
-      case "WT":
-        SetTitleMatchMode, 2
-        run, wt.exe -w 0 nt --title %lastOpenedTitle% -d %usePath%,%usePath%,max,lastPid
-        cs := lastOpenedTitle
+        sleep, 3000       
+      default:
+        MsgBox, ERROR: cs: %cs%!
     }
   
     WinWaitActive, %cs%,,10
@@ -1324,52 +1348,42 @@ runInDir(lineNumber){
         return
     }
     
-    SetTitleMatchMode, 1
-    StringCaseSense, Off
-    
     switch terminalType
     {
-      case "CMD", "%comspec%":
+      case "CMD":
         sleep, 500
-        ;pSendChars("title " . lastOpenedTitle, lastPid)
         sendTextViaControl("title " . lastOpenedTitle, lastPid)
         sleep, 500
-            
+      case "WT":
+        sleep, 500
       case "WSL":
         sendLinuxClipBoard(StrReplace(wsltitlecmd,"§§THE TITLE§§", lastOpenedTitle))
         sleep, 3000
         pathLinux := cvtToLinux(replSelectLastDirUsed)
         sendLinuxClipBoard("cd " . pathLinux)
-
-      case "WT":
-        sleep, 500
     }
     
     if (additionalCommand != ""){
       switch terminalType
       {
-        case "CMD", "%comspec%":
+        case "CMD":
           sendTextViaClipboard(additionalCommand, lastPid)
-        
+        case "WT":
+          sendTextViaClipboard(additionalCommand)
         case "WSL":
           sendTextViaClipboard(additionalCommand)
-        
-        case "WT":
-          sendTextViaClipboard(additionalCommand, lastPid)
       }
     }
 
     if (startCmd != ""){
       switch terminalType
       {
-        case "CMD", "%comspec%":
+        case "CMD":
           sendTextViaControl(startCmd, lastPid)
-        
+        case "WT":
+          sendTextClipBoard(startCmd)
         case "WSL":
           sendLinuxClipBoard(startCmd)
-        
-        case "WT":
-          sendTextViaControl(startCmd, lastPid)
       }
     }
     
@@ -1392,11 +1406,9 @@ runInDir(lineNumber){
             {
               case "CMD":
                 sendLinuxClipBoard(param)
-                  
-              case "WSL":
-                sendLinuxClipBoard(param)
-
               case "WT":
+                sendLinuxClipBoard(param)
+              case "WSL":
                 sendLinuxClipBoard(param)
             }
           }

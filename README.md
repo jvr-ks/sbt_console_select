@@ -53,11 +53,22 @@ and:
   
 #### Hints  
   
+* Select terminal type:  
+  default: %comspec%,  
+  "$WSL$" inside the name: wsl.exe,  
+  "$WT$" inside the name: Windows Terminal ("wt.exe" must be included in the Windows Path!),  
+* Last opened (by sbt_console_select) Console-Window is peferred over other Console-Windows running. 
+* Can be used not only to start sbt, but many other tools, starts a %comspec% shell if command-field is emtpy.
+* REPL Past mode:  
+* * Just prepend code with :paste, mark the code and press a replLoadHotkey.   
+* * No Ctrl+D is needed, past-mode ends when the file-end is reached.  
+* Do not use "Aottext" to hold the code to execute.  
+  Aottext aggressively grabs the focus so the command-windows does not get the focus! 
 * **sbt_console_select.exe runs in the background after start! Use the hotkey \[ALT] + \[t] to show the app-window**
 * [SBT](https://www.scala-sbt.org/) should be be installed to use it.  
 * The *.default-files are used by the Updater.  
 * Make sure that the names in the Command-file are exclusive, i.e. no other open window has it as a title not even as a part of it's title!  
-Names should NOT contain spaces! (Using the Rest-API names are part of an url and spaces must be replaced by "%20" then!)  
+  Names should NOT contain spaces! (Using the Rest-API names are part of an url and spaces must be replaced by "%20" then!)  
 * Default Installation-directory that is suggested by "Updater" is "C:\jvrde\sbt_console_select",  
   but any writable directory can be used.  
 * Does not use the JAVA_HOME(S) SBT mechanisnm.
@@ -294,21 +305,6 @@ Use [Selja](https://github.com/jvr-ks/selja) and [Selsca](https://github.com/jvr
 Using SBT:   
 Scala-version: SBT uses the definition in the file "build.sbt"  
   
-##### Remarks
-  
-* Select terminal type:  
-  default: %comspec%,  
-  "$WSL$" inside the name: wsl.exe,  
-  "$WT$" inside the name: Windows Terminal ("wt.exe" must be included in the Windows Path!),  
-  (CmdLineDev via curl does not like spaces in the parameter string!)
-* Last opened (by sbt_console_select) Console-Window is peferred over other Console-Windows running. 
-* Can be used not only to start sbt, but many other tools, starts a %comspec% shell if command-field is emtpy.
-* REPL Past mode:  
-* * Just prepend code with :paste, mark the code and press a replLoadHotkey.   
-* * No Ctrl+D is needed, past-mode ends when the file-end is reached.  
-* Do not use "Aottext" to hold the code to execute.  
-  Aottext aggressively grabs the focus so the command-windows does not get the focus!  
-  
 ##### Configure "sbt_console_select":  
 
 * Click on \[Edit] -&gt; \[Edit Command-file], edit the last line ", sbt -sbt-version 1.5.4 consoleQuick,graalvm11_203", replace "graalvm11_203" with your just configured Java/JDK name, save, close editor  
@@ -426,6 +422,25 @@ but neither SBT nor GHCI had a problem with the Windows line endings.
 
 Github URL [github](https://github.com/jvr-ks/sbt_console_select).  
 
+
+##### Testcode
+```
+/** useImports=imports.scsc */
+
+object Main extends IOApp.Simple:
+
+  val cp = System.getProperty("file.encoding")
+
+  val run =
+    IO.print(s"${RED}${BOLD}Hello ") >> IO.println(s"world,${RESET}\n") >> IO.println(s"${GREEN}${BOLD}from \"Cats-effect\"!${RESET}\n\n") >> IO.println(s"${YELLOW}(codepage: $cp) 😀😀😀${RESET}") >> IO.sleep(new FiniteDuration(10L, SECONDS)).as(ExitCode.Success)
+  end run
+end Main
+
+/** code part 2 section
+Main.run.unsafeRunSync()
+*/
+```  
+  
 ##### License: MIT  
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sub-license, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -441,8 +456,8 @@ Copyright (c) 2020/2021 J. v. Roos
 
 
 ##### Virusscan at Virustotal 
-[Virusscan at Virustotal, sbt_console_select.exe 64bit-exe, Check here](https://www.virustotal.com/gui/url/49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd/detection/u-49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd-1758922593
+[Virusscan at Virustotal, sbt_console_select.exe 64bit-exe, Check here](https://www.virustotal.com/gui/url/49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd/detection/u-49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd-1758970464
 )  
-[Virusscan at Virustotal, sbt_console_select32.exe 32bit-exe, Check here](https://www.virustotal.com/gui/url/9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9/detection/u-9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9-1758922595
+[Virusscan at Virustotal, sbt_console_select32.exe 32bit-exe, Check here](https://www.virustotal.com/gui/url/9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9/detection/u-9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9-1758970465
 )  
 Use [CTRL] + Click to open in a new window! 

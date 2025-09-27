@@ -2,8 +2,8 @@
 (Scala3_Learn_test),[scL]\scala3,sbt
 (Scala3_Learn__FUNCTIONAL),[scL]\__FUNCTIONAL,sbt consoleQuick
 (Scala3_$WSL$),~/scala3,sbt -Dsbt.server.forcestart=true consoleQuick
-(Scala3_Cousier $WSL$),~/scala3,cs launch scala3
-(Scala3_Cousier Amm $WSL$),~/scala3,cs launch amm
+(Scala3_Cousier_$WSL$),~/scala3,cs launch scala3
+(Scala3_Cousier_Amm_$WSL$),~/scala3,cs launch amm
 (Catseffect_consoleQuick_$WT$),[sc]\catseffect,sbt consoleQuick
 (Catseffect_consoleQuick),[sc]\catseffect,sbt consoleQuick
 (Catseffect_consoleTest),[sc]\catseffect,sbt test:consoleQuick
@@ -15,12 +15,12 @@
 (Haskell),[haskell],
 (Scala 2 testareaQuick ),[scL]\__testarea,sbt consoleQuick 
 (playWithPrimes),[pWP],sbt ~run,-Xms4G -Xmx12G -XX:+HeapDumpOnOutOfMemoryError,-Dfile.encoding=UTF-8
-(allfilesBetter consoleQuick),[sc]\allfilesBetter,sbt consoleQuick
+(allfilesBetter_consoleQuick),[sc]\allfilesBetter,sbt consoleQuick
 (Ammonite_3),[scL]\__testarea,amm3
 (Cats),[scL]\cats,sbt consoleQuick
 (-auto-),[scL]\scalaFx,sbt consoleQuick#:load test1.scala#+close+
 (Slick),[scL]\slick,sbt console
 (Scala3_creativescala),[scL]\creativescala,sbt consoleQuick
 (getUrlLength),[sc]\getUrlLength,sbt consoleQuick
-(WSL Amm-TEST $WSL$),[scL]\__testarea,amm3#println("hello word!")#+close+
-(WSL SBT-TEST $WSL$),[scL]\__testarea,sbt consoleQuick
+(WSL_Amm-TEST_$WSL$),[scL]\__testarea,amm3#println("hello word!")#+close+
+(WSL_SBT-TEST_$WSL$),[scL]\__testarea,sbt consoleQuick
