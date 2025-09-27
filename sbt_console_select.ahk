@@ -61,8 +61,6 @@ license := "
  * Main view element is the ListView LV1.
  * Upon a click guiMainListViewClick() is called.
   --------------------------------------------------------------------------------*
-  Hints:
-  - "sendTextClipBoard" and "sendLinuxClipBoard" are currently identical
 */
 
 ;SetWinDelay, -1
@@ -298,7 +296,6 @@ scsRest(ByRef req, ByRef res) {
   global autoSelectName, app, entryNameArr
 
 ; request example -> curl http://localhost:65505/scs?open=(testareaQuick)
-; request example -> curl http://localhost:65505/scs?close=(testareaQuick)
   autoSelectName := req.queries["open"]
   closeName := req.queries["close"]
 
@@ -838,7 +835,7 @@ replLoadAction(selectAll := false){
                 sleep,200
                 
                 case "WT":
-                sendTextClipBoard(":load " . replFilePart1, lastPid)
+                sendTextClipBoard(":load " . replFilePart1, 0)
                 sleep,200
                 
                case "WSL":
@@ -865,7 +862,7 @@ replLoadAction(selectAll := false){
                     sendTextClipBoard(":load " . replFilePart2, lastPid)
                     sleep,200
                   case "WT":
-                    sendTextClipBoard(":load " . replFilePart2, lastPid)
+                    sendTextClipBoard(":load " . replFilePart2, 0)
                   case "WSL":
                     sendLinuxClipBoard(":load " . cvtToLinux(replFilePart2), lastPid)
                     sleep,200
@@ -889,7 +886,7 @@ replLoadAction(selectAll := false){
                     sendTextViaControl(":load " . importFileName, lastPid)
                     sleep,200
                   case "WT":
-                    sendTextClipBoard(":load " . importFileName, lastPid)
+                    sendTextClipBoard(":load " . importFileName, 0)
                   case "WSL":
                     sendLinuxClipBoard(":load " . cvtToLinux(importFileName), lastPid)
                     sleep,200
@@ -1209,33 +1206,20 @@ sendText(toSend := "", lastPid := 0){
   return
 }
 ;----------------------------- sendTextClipBoard -----------------------------
-sendTextClipBoard_1(toSend := "", lastPid := 0){
-msgbox, sendTextClipBoard toSend: %toSend% lastPid: %lastPid%
-  if (!lastPid){
+sendTextClipBoard(toSend := "", lastPid := 0){
+  global lastOpenedTitle
+  
+  if (lastPid == 0){
+    WinWaitActive, %lastOpenedTitle%
     clipboard := toSend
-    SendInput,{Shift down}{RBUTTON}{Shift up}
+    SendInput,{Ctrl down}{v}{Ctrl up}
     SendInput,{Enter}
   } else {
     WinWaitActive, ahk_pid %lastPid%
     clipboard := toSend
-    SendInput,{Shift down}{RBUTTON}{Shift up}
+    SendInput,{Ctrl down}{v}{Ctrl up}
     SendInput,{Enter}
   }
-
-  return
-}
-
-sendTextClipBoard(toSend := "", lastPid := 0){
-  global lastOpenedTitle
-  
-msgbox, sendTextClipBoard toSend: %toSend% lastPid: %lastPid%
-
-  WinWaitActive, %lastOpenedTitle%
-  clipboard := toSend
-  SendInput,{Ctrl down}{v}{Ctrl up}
-  SendInput,{Enter}
-
-
   return
 }
 ;---------------------------- sendLinuxClipBoard ----------------------------
@@ -1318,7 +1302,6 @@ runInDir(lineNumber){
     startCmd := lineArr[1]
     param := lineArr[2]
     usePath := cvtPath(directoriesArr[lineNumber])
-    cs := ""
 
     switch terminalType
     {
@@ -1328,23 +1311,20 @@ runInDir(lineNumber){
         setEnv := setSystemEnvCmd("", "JAVA_HOME")
         Run, %setEnv%,,min
         
-        cs := cvtPath("%comspec%")
         Run, %startEnv%,%usePath%,max,lastPid
       case "WT":
         Run, wt.exe -w 0 nt --title "%lastOpenedTitle%" -d %usePath%,%usePath%,max,lastPid
-        cs := lastOpenedTitle
       case "WSL":
-        cs := "wsl.exe"
         Run, %wslStart%,,max, lastPid
         sleep, 3000       
       default:
-        MsgBox, ERROR: cs: %cs%!
+        MsgBox, ERROR in terminalType: %terminalType% !
     }
   
-    WinWaitActive, %cs%,,10
+    WinWaitActive, ahk_pid %lastPid%,,10
     if ErrorLevel
     {
-        MsgBox, Cannot open window %cs%!
+        MsgBox, Cannot open window with Pid: %lastPid%!
         return
     }
     
@@ -1357,10 +1337,10 @@ runInDir(lineNumber){
       case "WT":
         sleep, 500
       case "WSL":
-        sendLinuxClipBoard(StrReplace(wsltitlecmd,"§§THE TITLE§§", lastOpenedTitle))
+        sendLinuxClipBoard(StrReplace(wsltitlecmd,"§§THE TITLE§§", lastPid))
         sleep, 3000
         pathLinux := cvtToLinux(replSelectLastDirUsed)
-        sendLinuxClipBoard("cd " . pathLinux)
+        sendLinuxClipBoard("cd " . pathLinux, lastPid)
     }
     
     if (additionalCommand != ""){
@@ -1369,9 +1349,9 @@ runInDir(lineNumber){
         case "CMD":
           sendTextViaClipboard(additionalCommand, lastPid)
         case "WT":
-          sendTextViaClipboard(additionalCommand)
+          sendTextClipBoard(additionalCommand, 0)
         case "WSL":
-          sendTextViaClipboard(additionalCommand)
+          sendLinuxClipBoard(additionalCommand, lastPid)
       }
     }
 
@@ -1381,9 +1361,9 @@ runInDir(lineNumber){
         case "CMD":
           sendTextViaControl(startCmd, lastPid)
         case "WT":
-          sendTextClipBoard(startCmd)
+          sendTextClipBoard(startCmd, 0)
         case "WSL":
-          sendLinuxClipBoard(startCmd)
+          sendLinuxClipBoard(startCmd, lastPid)
       }
     }
     
@@ -1405,11 +1385,11 @@ runInDir(lineNumber){
             switch terminalType
             {
               case "CMD":
-                sendLinuxClipBoard(param)
+                sendTextViaClipboard(param, lastPid)
               case "WT":
-                sendLinuxClipBoard(param)
+                sendTextClipBoard(param, 0)
               case "WSL":
-                sendLinuxClipBoard(param)
+                sendLinuxClipBoard(param, lastPid)
             }
           }
         }
