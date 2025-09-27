@@ -5,9 +5,10 @@
 (Scala3_Cousier_$WSL$),~/scala3,cs launch scala3
 (Scala3_Cousier_Amm_$WSL$),~/scala3,cs launch amm
 (Catseffect_consoleQuick_$WT$),[sc]\catseffect,sbt consoleQuick
+(Catseffect_consoleQuick_$WSL$),[sc]\catseffect,sbt consoleQuick
 (Catseffect_consoleQuick),[sc]\catseffect,sbt consoleQuick
 (Catseffect_consoleTest),[sc]\catseffect,sbt test:consoleQuick
-(Catseffect_consoleQuick_$WSL$),[sc]\catseffect\_deadlock,sbt -Dcats.effect.stackTracingMode=full -Dcats.effect.traceBufferSize=1024 consoleQuick
+(Catseffect_consoleQuick_test_$WSL$),[sc]\catseffect\_deadlock,sbt -Dcats.effect.stackTracingMode=full -Dcats.effect.traceBufferSize=1024 consoleQuick
 (Catseffect_sbt),[sc]\catseffect,sbt
 (Catseffect_http4s_userguide),[sc]\http4s\quickstart,sbt console
 (Catseffect_http4s_quickstart),[sc]\http4s\quickstart,sbt consoleQuick

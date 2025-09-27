@@ -1337,6 +1337,7 @@ runInDir(lineNumber){
       case "WT":
         sleep, 500
       case "WSL":
+        sendLinuxClipBoard("PS1=""${debian_chroot:+($debian_chroot)}\\u@\h \w\a$ """)
         sendLinuxClipBoard(StrReplace(wsltitlecmd,"§§THE TITLE§§", lastPid))
         sleep, 3000
         pathLinux := cvtToLinux(replSelectLastDirUsed)
