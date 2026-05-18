@@ -4,7 +4,7 @@
 
 #### This project is deprecated  
 ##### in favor to scala-cli / scala-cli repl ...
-##### But still usefull if the Scala REPL is used (Windows)
+##### But still usefull if the Scala-cli REPL is used (Windows)
 Otherwise you have to surround the code with curly braces,
 if multible lines of code are inserted from the clipnoard using scala-cli repl!
   
