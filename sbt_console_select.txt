@@ -1,0 +1,11 @@
+(Catsef-cli_snippets_CLI),[sccecli]\a_snippets,scala-cli repl repl-options.scala -S 3.8.2 
+(Catsef-cli_snippets),[sccecli]\a_snippets,sbt consoleQuick
+(Catsef-cli_snippets_$WT$),[sccecli]\a_snippets,sbt consoleQuick
+(Catsef-cli_snippets_$WSL$),[sccecli]\a_snippets,sbt consoleQuick
+(Scala3_Learn),[scL]\scala3,sbt consoleQuick
+(Scala3_Learn__FUNCTIONAL),[scL]\__FUNCTIONAL,sbt consoleQuick
+(Catseffect_consoleQuick_$WT$),[sc]\catseffect,sbt consoleQuick
+(Catseffect_consoleQuick),[sc]\catseffect,sbt consoleQuick
+(Catseffect_consoleTest),[sc]\catseffect,sbt test:consoleQuick
+(Catseffect_consoleQuick_test_$WSL$),[sc]\catseffect\_deadlock,sbt -Dcats.effect.stackTracingMode=full -Dcats.effect.traceBufferSize=1024 consoleQuick
+
