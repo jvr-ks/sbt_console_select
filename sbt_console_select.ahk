@@ -1488,7 +1488,9 @@ charCounter(codeLine, s := "") {
 ;---------------------------- RemoveScalaComments ----------------------------
 RemoveScalaComments(text := "") {
   ; Scala-cli import commands are not removed!
-  
+  text := StrReplace(text, "`r`n", "`n")  ; convert CR+LF to LF
+  text := StrReplace(text, "`n", "`r`n")  ; convert LF to CR+LF
+
   text := RegExReplace(text, "m)/\*[\s\S]*?\*/") ; remove all block comments
   text := RegExReplace(text, "m)^//.*") ; remove at line start only
   
