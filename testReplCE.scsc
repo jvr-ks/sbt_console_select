@@ -1,0 +1,27 @@
+// file: testReplCE.scsc (Scala 3.8.2+ required!)
+
+//** useImports=repl-imports.sctxt */
+
+extension [A](io: IO[A])
+  def trace: IO[A] = for {
+    res <- io
+    _   <- IO.println(s"[${Thread.currentThread.getName}] " + res)
+  } yield res
+
+val run =
+  val wait = IO.sleep(5.second)
+  val r = Range(1, 10, 1).toList
+
+  IO{r.foreach(println)} >>
+  IO{println()} >>
+  IO{r.foreach(print)} >>
+  IO{println()} >>
+  IO{r.foreach((x:Int) => print(x.toString + " "))} >>
+  IO{println()} >> wait >> IO{println("by by ...")}
+  
+//val cancel = run.unsafeRunCancelable()
+val cancel = run.unsafeRunSync()
+
+
+
+
