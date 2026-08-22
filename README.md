@@ -414,7 +414,6 @@ def run: IO[Unit] =
 
 run.unsafeRunSync()
 
-// sleep=15000
 ```
 ![Image swing_repl.jpg](swing_repl.jpg)
   
@@ -554,7 +553,7 @@ val main: IO[Unit] =
     _                 <- program
   yield ()
 
-// sleep=3000
+
 main.unsafeRunSync()
 
 // 2026-08-15 16:07:56 [DEBUG] rs$line$7$: This is some debug (rs$line$7:3)
@@ -582,6 +581,10 @@ During "--load CE--" mode action, the killswitch (ESCAPE key) ist activated.
 If the REPL console crashes "sbt_console_select" may send the code commands to the next open window.  
 To stop it immediatedly press the ESCAPE key!  
 TO stop just the data transfer press Shift+ESCAPE!  
+  
+Hints:  
+- **Make sure to avoid empty lines of code that do not mark the end of the code section.**  
+  **Fill them with spaces as appropriate!**  
 
 Example:  
 ````
@@ -654,12 +657,12 @@ def run: IO[Unit] =
     for {
       runningRef <- Ref.of[IO, Option[Fiber[IO, Throwable, Unit]]](None)
       done       <- Deferred[IO, Unit]
-
+      
       _ <- IO {
         val status = new Label("Idle")
         val start  = new Button("Start")
         val cancel = new Button("Cancel")
-
+        
         val frame = new MainFrame {
           title = "Cats Effect + Swing"
           contents = new BorderPanel {
@@ -668,9 +671,9 @@ def run: IO[Unit] =
           }
           size = new Dimension(300, 140)
         }
-
+        
         frame.visible = true
-
+        
         start.reactions += {
           case event.ButtonClicked(_) =>
             dispatcher.unsafeRunAndForget {
@@ -686,7 +689,7 @@ def run: IO[Unit] =
               } yield ()
             }
         }
-
+        
         cancel.reactions += {
           case event.ButtonClicked(_) =>
             dispatcher.unsafeRunAndForget {
@@ -697,20 +700,19 @@ def run: IO[Unit] =
               } yield ()
             }
         }
-
+        
         frame.peer.addWindowListener(new java.awt.event.WindowAdapter {
           override def windowClosed(e: java.awt.event.WindowEvent): Unit =
             dispatcher.unsafeRunAndForget(done.complete(()).void)
         })
       }
-
+      
       _ <- done.get
     } yield ()
   }
 
-// sleep=5000
-
 run.unsafeRunSync()
+
   
 ```
    
@@ -854,8 +856,8 @@ Copyright (c) 2020/2021 J. v. Roos
 
 
 ##### Virusscan at Virustotal 
-[Virusscan at Virustotal, sbt_console_select.exe 64bit-exe, Check here](https://www.virustotal.com/gui/url/49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd/detection/u-49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd-1787402034
+[Virusscan at Virustotal, sbt_console_select.exe 64bit-exe, Check here](https://www.virustotal.com/gui/url/49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd/detection/u-49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd-1787403821
 )  
-[Virusscan at Virustotal, sbt_console_select32.exe 32bit-exe, Check here](https://www.virustotal.com/gui/url/9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9/detection/u-9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9-1787402036
+[Virusscan at Virustotal, sbt_console_select32.exe 32bit-exe, Check here](https://www.virustotal.com/gui/url/9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9/detection/u-9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9-1787403822
 )  
 Use [CTRL] + Click to open in a new window! 
