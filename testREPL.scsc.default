@@ -1,0 +1,13 @@
+// file: testREPL.scsc
+
+/** code part 1 section */
+val r = Range(1, 10, 1).toList
+r.foreach(println)
+println
+r.foreach(print)
+println 
+r.foreach{(x:Int) => print(x.toString + " ")}
+println 
+
+
+
