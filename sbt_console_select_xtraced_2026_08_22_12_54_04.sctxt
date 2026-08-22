@@ -1,0 +1,2 @@
+def longRunningTask: IO[String] =                                                 /* (0 / 0 / 0) Wait: 500 */
+  IO.sleep(5.seconds) *> IO.pure("Done")                                          /* (0 / 1 / 1) Wait: 3500 */

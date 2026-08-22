@@ -1,5 +1,7 @@
 # sbt_console_select
-
+  
+# currently NOT usable!  
+  
 ##### Hint  
 The code is loaded using the REPL "load: " command,
 (except when using the "--load CE--" mode),  
