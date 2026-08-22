@@ -1,11 +1,9 @@
 # sbt_console_select
-  
-# currently NOT usable!  
-  
+    
 ##### Hint  
 The code is loaded using the REPL "load: " command,
 (except when using the "--load CE--" mode),  
-which is much more reliable (Scala 3.8.2+ required!).  
+which is more reliable (Scala 3.8.2+ required!).  
   
 Included test file: "testREPL.scsc", "testReplCE.scsc" and "build.sbt"  
 (Add a "project --> build.properties" file)  
@@ -209,19 +207,7 @@ To always execute a second part besides a seleted part, mark the second part (i.
 and press the replSelectLoadPart2Hotkey: **\[SHIFT] + \[ALT] + \[e]** once.  
 The second part is saved, so you must not always mark the code part 2 too.  
 (Cleaned by the reset-hotkey (default is: \[CTRL] + r)).  
-   
-##### Inserting a delay after a line of code  
-Especially if the code contains functional constructs,  
-the REPL needs an indistinct amount of time to evaluate the code.  
-"sbt_console_select" waits a variable amount of time before sending the next line of code,    
-configurable in the section \[delays\] of the configuration file.  
-The required code analysis is currently implemented in a simple fashion only.  
-  
-If the build in code analysis time is not sufficient,  
-(i.e. errors occur due to missing code parts)
-insert a comment with the delay time (in milliseconds) like:  
-"\/\/ sleep=4000".  
-  
+    
 ##### Code execution internals  
   
 The Config-file section "\[config]" contains the definiton of the replcommands="..." as a CSV list.  
@@ -450,28 +436,9 @@ Hints:
   but make the code more readable.  
   Another problem is how to estimated the amount of time to wait the REPL needs to process the code section,  
   which depends on the CPU capability too!
-  Sbt-console-select uses some code keywords and the degree of nesting to determine the waiting time.  
-  
-Example part of code:
-```
-def run: IO[Unit] =
-  Dispatcher.parallel[IO].use { dispatcher =>
-    for {
-      runningRef <- Ref.of[IO, Option[Fiber[IO, Throwable, Unit]]](None)
-      done       <- Deferred[IO, Unit]
-// problematic code line, this and the next 2 example lines avoid unnecessary waits  
- 
-      
- // this comment does not avoid unnecessary waits
-      _ <- IO {
-        val status = new Label("Idle")
-```  
-If the code line "// problem code line" is reached and the line ist empty,  
-Sbt-console-select will unnecessarily (the code section is not finished)  
-wait a long (nested level is 3) time.  
-To avoid this, you may insert a comment at linestart or one or more spaces in the source code,  
-but not a comment after any other code.  
-  
+  Sbt-console-select uses a very simple mechanism to determine the waiting time,  
+  which is not very reliable!  
+   
 ##### replcommands auto overload  
 Besides changing the config-file,  
 you can create a file "replcommands.txt" in the running directory (NOT the "sbt_console_select.exe"-directory).  
@@ -887,8 +854,8 @@ Copyright (c) 2020/2021 J. v. Roos
 
 
 ##### Virusscan at Virustotal 
-[Virusscan at Virustotal, sbt_console_select.exe 64bit-exe, Check here](https://www.virustotal.com/gui/url/49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd/detection/u-49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd-1787395857
+[Virusscan at Virustotal, sbt_console_select.exe 64bit-exe, Check here](https://www.virustotal.com/gui/url/49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd/detection/u-49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd-1787402034
 )  
-[Virusscan at Virustotal, sbt_console_select32.exe 32bit-exe, Check here](https://www.virustotal.com/gui/url/9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9/detection/u-9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9-1787395858
+[Virusscan at Virustotal, sbt_console_select32.exe 32bit-exe, Check here](https://www.virustotal.com/gui/url/9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9/detection/u-9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9-1787402036
 )  
 Use [CTRL] + Click to open in a new window! 

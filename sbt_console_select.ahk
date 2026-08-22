@@ -94,26 +94,13 @@ traceFileName := ""
 killswitchOn := 0
 sendStopped := 0
 showWait := 1
-debugTrace := 0
-
-delayTimeMax := 15000
-indentBlankLevelNew := 0
-indentBlankLevelCurrent := 0
 
 delayFastMode := 0
 delayLinesFastModeDefault := 0
 
-delayLinesDefault := 0
 delayEachCharacter := 0
+delayEachLine := 0
 
-delayLevelImport := 0
-delayLevelCaseClass := 0
-delayLevelGiven := 0
-delayLevelYield := 0
-delayLevelFlatMap := 0
-delayLevelUnsafeRun := 0
-
-indentChangedDelay := 0
 
 bit := (A_PtrSize=8 ? "64" : "32")
 if (!A_IsUnicode)
@@ -223,8 +210,6 @@ replcommandsDefault := "--load imports--,--load the code part 1--,--load the cod
 replcommands := replcommandsDefault
 
 wsltitlecmd := "echo -ne '\033]0;§§THE TITLE§§\a'"
-
-;codeToDelaySetup()
 
 MouseGetPos, posXsave, posYsave
 
@@ -876,7 +861,7 @@ replLoadAction(selectAll := false){
 
   toSend := ""
   
-  codeToDelaySetup()
+  delaySetup()
   
   indentBlankLevelCurrent := 0
 
@@ -1348,7 +1333,6 @@ sendLinesEachDelayed(toSend := "") {
         if (!sendStopped){
           SendInput,{text}%line%
           SendInput,{Enter} 
-          codeToDelaySleep(line)
         }
       }
       if (sendStopped)
@@ -1365,27 +1349,31 @@ sendLinesEachDelayed(toSend := "") {
 }
 ;--------------------------- postLinesEachDelayed ---------------------------
 postLinesEachDelayed(toSend := "") {
-  global lastPid, lastOpenedTitle, delayEachCharacter, killswitchOn, sendStopped
+  global lastPid, lastOpenedTitle, delayEachCharacter, delayEachLine, killswitchOn, sendStopped
+  global emptyLineCounter, lineCounter
   
   if WinExist("ahk_pid" lastPid){
     WinActivate
     killswitchOn := 1
     sendStopped := 0
 
-    lines := RemoveScalaComments(toSend)
-    lines := StrSplit(lines, "`n", "`r")  ; splits on LF, removes CR
+    linesRaw := RemoveScalaComments(toSend)
+    lines := StrSplit(linesRaw, "`n", "`r")  ; splits on LF, removes CR
     for i, line in lines {
        if (!sendStopped){
         if (line == ""){
           postmessage, WM_CHAR := 0x102, 0x0D,,, ahk_pid %lastPid%
-          sleep, 1000
+          sectionDelay()
+          lineCounter := 0
         } else {
           for k, char in StrSplit(line){
             postmessage, WM_CHAR := 0x102, Asc(char),,, ahk_pid %lastPid%
             sleep, delayEachCharacter
           }
           postmessage, WM_CHAR := 0x102, 0x0D,,, ahk_pid %lastPid%
-          codeToDelaySleep(line)
+          emptyLineCounter := 0
+          lineCounter += 1
+          sleep, delayEachLine
         }
       }
       if (sendStopped)
@@ -1398,155 +1386,32 @@ postLinesEachDelayed(toSend := "") {
   
   return
 }
-;----------------------------- codeToDelaySetup -----------------------------
-codeToDelaySetup(){
-  global showWait, debugTrace, delayFastMode, delayLinesFastModeDefault
-  global delayLinesDefault, delayEachCharacter
-  global indentChangedDelay, delayTimeMax
-  global delayLevelImport, delayLevelCaseClass, delayLevelGiven, delayLevelYield
-  global delayLevelFlatMap, delayLevelUnsafeRun
+;------------------------------- sectionDelay -------------------------------
+sectionDelay(){
+  global emptyLineCounter, delaySection, lineCounter, delaySectionInc
   
-  indent4 := iniReadSave("indent4", "config", 0)
-  showWait := iniReadSave("showWait", "config", 1)
-  debugTrace := iniReadSave("debugTrace", "config", 0)
+  emptyLineCounter += 1
   
-  delayTimeMax := iniReadSave("delayTimeMax", "delays", 15000)
-  delayLinesDefault := iniReadSave("delayLinesDefault", "delays", 500)
-  delayEachCharacter := iniReadSave("delayEachCharacter", "delays", 10)
-  
-  delayFastMode := iniReadSave("config", "delays", 0)
-  delayLinesFastModeDefault := iniReadSave("delayLinesFastModeDefault", "delays", 2000)
-  
-  indentChangedDelay := iniReadSave("indentChangedDelay", "delays", 3000)
-
-  delayLevelImport := iniReadSave("delayLevelImport", "delays", 1)
-  delayLevelCaseClass := iniReadSave("delayLevelCaseClass", "delays", 1)
-  delayLevelGiven := iniReadSave("delayLevelGiven", "delays", 1)
-  delayLevelYield := iniReadSave("delayLevelYield", "delays", 1)
-  delayLevelFlatMap := iniReadSave("delayLevelFlatMap", "delays", 1)
-  
-  delayLevelUnsafeRun := iniReadSave("delayLevelUnsafeRun", "delays", 1)
-  
-  if (indent4){
-    indentChangedDelay := round(indentChangedDelay / 2)
+  if (emptyLineCounter < 2){
+    delay := delaySection + lineCounter * delaySectionInc
+    if (delay > (delaySection + lineCounter) )
+    tipTop2("Delay: " delay " milliseconds", 2000)
+    sleep, delay
   }
-  
+
   return
 }
-;----------------------------- codeToDelaySleep -----------------------------
-codeToDelaySleep(codeLine := ""){
-  global hMain, hintColoredexit, indentBlankLevelCurrent, indentBlankLevelNew
-  global indent4, delayTimeMax
-  global showWait, debugTrace, delayFastMode, delayLinesFastModeDefault
-  global delayLinesDefault, delayEachCharacter
-  global indentChangedDelay
-  global delayLevelImport, delayLevelCaseClass, delayLevelGiven, delayLevelYield
-  global delayLevelFlatMap, delayLevelUnsafeRun
-  global traceFileName
+;----------------------------- delaySetup -----------------------------
+delaySetup(){
+  global delaySection, delaySectionInc, delayEachCharacter, delayEachLine
   
-  indentBlankLevelCurrentDisp := indentBlankLevelCurrent
+  delayEachLine := iniReadSave("delayEachLine", "delays", 500)
+  delayEachCharacter := iniReadSave("delayEachCharacter", "delays", 11)
   
-  ; 2nd matching: single curly brace (cb) followed by spaces or curly braces only,
-  ;  cb followed spaces only and then by a "//" followed by anything
-  ;  cb followed spaces only and then by a "/*" followed by anything
-  ; 3rd matching: spaces or tabs and then a comment
-  ; 
-  if (codeLine = "" || RegExMatch(codeLine,"^}+.*$|^(?:}+.*\/\/.*)|^(?:}+ *\/\*.*)")|| RegExMatch(codeLine,"(?: +|\t+)(\/\/|\/\*).*")){
-    indentBlankLevelNew := 0
-  } else {
-    counterLevel := 10
-    maxlevel := 0
-    while (counterLevel > 0) {
-       if (RegExMatch(codeLine,"^(?:  ){" counterLevel "}.*")){
-        maxlevel := counterLevel
-        counterLevel := 0 ; break
-      }
-      counterLevel -= 1
-    }
-    if (maxlevel > 0){
-      indentBlankLevelNew := maxlevel
-    } else {
-      indentBlankLevelNew := 0
-    }
-  }
-  
-  if (InStr(codeLine, "unsafeRun")){
-    indentBlankLevelCurrent += delayLevelUnsafeRun
-  }
-  if (RegExMatch(codeLine, "^import")){
-    indentBlankLevelCurrent += delayLevelImport
-  }
-  if (RegExMatch(codeLine, "^case class")){
-    indentBlankLevelCurrent += delayLevelCaseClass
-  }
-  if (RegExMatch(codeLine, "^(?!import).*given")){
-    indentBlankLevelCurrent += delayLevelGiven
-  }  
-  if (RegExMatch(codeLine, "yield")){
-    indentBlankLevelCurrent += delayLevelYield
-  } 
-  if (RegExMatch(codeLine, "\*>")){
-    indentBlankLevelCurrent += delayLevelFlatMap
-  }
-  if (RegExMatch(codeLine, ">>")){
-    indentBlankLevelCurrent += delayLevelFlatMap
-  } 
-  if (RegExMatch(codeLine, "flatMap")){
-    indentBlankLevelCurrent += delayLevelFlatMap
-  } 
-
-  ; delayFastMode
-  if (delayFastMode)
-    sleepTime := delayLinesFastModeDefault
-  else
-    sleepTime := delayLinesDefault
-  
-  
-  indentChange :=  indentBlankLevelCurrent - indentBlankLevelNew
-  if (indentChange > 0){
-    sleepTime += indentChange * indentChangedDelay
-    sleepTime := Min(sleepTime, delayTimeMax)
-  }
-  
-  ; // sleep=  
-  if (RegExMatch(codeLine,"i)\/\/ sleep=([\w\.]*)", codeDelay)){
-    sleepTime += codeDelay1
-  }
-
-  if (showWait) {
-    msgContent := "(" . indentBlankLevelCurrentDisp . " / " . indentBlankLevelNew . " / " . indentChange . ") Wait: " . sleepTime
-    if (sleepTime > delayLinesDefault) ; show only if extra sleeptime
-      tipTop2(msgContent, sleepTime)
-    else
-      tipTopClose2()
-    
-    
-    if (debugTrace) {
-      l1 := StrLen(codeLine)
-      l2 := 80 - l1
-      multiSpaces := "                                        "
-      fillSpaces := SubStr(multiSpaces . multiSpaces . multiSpaces, 1 , l2)
-      FileAppend, %codeLine% %fillSpaces% /* %msgContent% */`n, %traceFileName%
-    }
-  } 
-  
-  if (sleepTime > 0)
-    sleep, sleepTime
-   
-  indentBlankLevelCurrent := indentBlankLevelNew
-  
+  delaySection := iniReadSave("delaySection", "delays", 5000)
+  delaySectionInc := iniReadSave("delaySectionInc", "delays", 50)
+ 
   return
-}
-;-------------------------------- charCounter --------------------------------
-charCounter(codeLine, s := "") {
-  count := 0
-  pos := 1
-  while (pos := InStr(codeLine, s, false, pos)) {
-      count++
-      pos++
-  }
-
-  return count
 }
 ;---------------------------- RemoveScalaComments ----------------------------
 RemoveScalaComments(text := "") {
@@ -1568,8 +1433,6 @@ runInDir(lineNumber){
   global entryNameArr, entryIndexArr, directoriesArr, startcmdArr
   global replSelectLastDirUsed, autoselectName, additionalCommand
   global app, lastPid, wslStart, wsltitlecmd, terminalType
-
-  ;codeToDelaySetup()
 
   id := ""
   terminalType := ""
@@ -2203,7 +2066,7 @@ escapeForcedFunction(){
   return
 }
 ;---------------------------------- tipTop2 ----------------------------------
-tipTop2(msg, t := 3000){
+tipTop2(msg, t := 2000){
 
   s := StrReplace(msg,"^",",")
   
