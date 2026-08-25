@@ -1,0 +1,21 @@
+// sbtREPLTest1.sctxt
+// delayed test
+// lines delayed: 9 12
+      print("level 3")
+      print("level 3")
+
+      print("level 3")
+      print("level 3")
+
+    print("level 2")
+    print("level 2")
+
+
+  print("level 1")
+  print("level 1")
+    
+  print("level 1")
+  print("level 1")
+
+/** showmessage15000=Please press the [CTRL]-key to return to the previously open window! */
+
