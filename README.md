@@ -99,7 +99,7 @@ Not commented/shown versions are bugfixes!
   
 Version (&gt;=)| Change
 ------------ | -------------  
-0.266 | delayFastMode is default, new Metacommands
+0.266 | New Metacommands
 0.260 | Only block comments are removed (besides starting with "/\*\*" but are reserved to Metacommands)!
 0.253 | Scala-cli support introduced
 0.250 | Killswitch ESCAPE ("--load CE--" mode only)
@@ -597,8 +597,8 @@ or something likewise.
 Killswitch: 
 During "--load CE--" mode action, the killswitch (ESCAPE key) ist activated.  
 If the REPL console crashes "sbt_console_select" may send the code commands to the next open window.  
-To stop it immediatedly press the ESCAPE key!  
-TO stop just the data transfer press Shift+ESCAPE!  
+To stop it immediatedly press the **\[ESCAPE]** key!  
+TO stop just the data transfer press **\[SHIFT] + \[ESCAPE]** !  
 
 ##### Configuration setup: 
 ``` 
@@ -894,8 +894,8 @@ Copyright (c) 2020/2021 J. v. Roos
 
 
 ##### Virusscan at Virustotal 
-[Virusscan at Virustotal, sbt_console_select.exe 64bit-exe, Check here](https://www.virustotal.com/gui/url/49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd/detection/u-49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd-1787657445
+[Virusscan at Virustotal, sbt_console_select.exe 64bit-exe, Check here](https://www.virustotal.com/gui/url/49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd/detection/u-49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd-1787905119
 )  
-[Virusscan at Virustotal, sbt_console_select32.exe 32bit-exe, Check here](https://www.virustotal.com/gui/url/9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9/detection/u-9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9-1787657446
+[Virusscan at Virustotal, sbt_console_select32.exe 32bit-exe, Check here](https://www.virustotal.com/gui/url/9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9/detection/u-9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9-1787905120
 )  
 Use [CTRL] + Click to open in a new window! 

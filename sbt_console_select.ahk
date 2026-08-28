@@ -100,7 +100,7 @@ showWait := 1
 lineCounter := 0
 emptyLineCounter := 0
 
-delayFastMode := 1
+delayFastMode := 0
 delayLinesFastModeDefault := 0
 
 delayEachCharacter := 0
@@ -174,7 +174,7 @@ escapeForcedHotkey := escapeForcedHotkeyDefault
 escapeHotkeyDefault := "+Esc"
 escapeHotkey := escapeHotkeyDefault
 
-openEditorWinHotkeyDefault := "Shift"
+openEditorWinHotkeyDefault := "Ctrl"
 openEditorWinHotkey := openEditorWinHotkeyDefault
 
 scsRestPortDefault := 65505
@@ -1051,7 +1051,7 @@ replLoadAction(selectAll := false){
         
         ;sleep, 3000
         Hotkey, %openEditorWinHotkey%, openEditorWin ,ON
-        tipTopEndless("Please press the [SHIFT]-key to return to the previously open window!", 1)
+        tipTopEndless("Please press the [CTRL/Strg]-key to return to the previously open window!", 1)
         
       } else {
         if (lastOpenedTitle == ""){
@@ -1382,14 +1382,15 @@ postLinesEachDelayed(toSend := "") {
     for i, line in lines {
        if (!sendStopped){
         if (line = ""){
-          postmessage, WM_CHAR := 0x102, 0x0D,,, ahk_pid %lastPid%
+          SendMessage, WM_CHAR := 0x102, 0x0D,,, ahk_pid %lastPid%
           sectionDelay(lines, i)
         } else {
-          for k, char in StrSplit(line){
-            postmessage, WM_CHAR := 0x102, Asc(char),,, ahk_pid %lastPid%
+          t := extraFunctionsHide(line)
+          for k, char in StrSplit(t){
+            SendMessage, WM_CHAR := 0x102, Asc(char),,, ahk_pid %lastPid%
             sleep, delayEachCharacter
           }
-          postmessage, WM_CHAR := 0x102, 0x0D,,, ahk_pid %lastPid%
+          SendMessage, WM_CHAR := 0x102, 0x0D,,, ahk_pid %lastPid%
           sectionDelayPossible(lines, i)
           emptyLineCounter := 0
           lineCounter += 1
@@ -1563,7 +1564,7 @@ delaySetup(){
   delaySection := iniReadSave("delaySection", "delays", 6000)
   delaySectionInc := iniReadSave("delaySectionInc", "delays", 100)
   
-  delayFastMode := iniReadSave("delayFastMode", "config", 1)
+  delayFastMode := iniReadSave("delayFastMode", "config", 0)
   
  
   return

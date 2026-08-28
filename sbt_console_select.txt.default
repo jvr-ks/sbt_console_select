@@ -1,4 +1,6 @@
+(Catsef-cli_snippets_CLI_$WT$),[sccecli]\a_snippets,scala-cli repl repl-options.scala -S 3.8.4
 (Catsef-cli_snippets_CLI),[sccecli]\a_snippets,scala-cli repl repl-options.scala -S 3.8.4
+(Catsef-cli_snippets_CLI verbose),[sccecli]\a_snippets,scala-cli repl repl-options.scala -S 3.8.4 -v -v -v
 (Catsef-cli_snippets_CLI_382),[sccecli]\a_snippets,scala-cli repl repl-options.scala -S 3.8.2 
 (Catsef-cli_snippets),[sccecli]\a_snippets,sbt consoleQuick
 (Catsef-cli_snippets_$WT$),[sccecli]\a_snippets,sbt consoleQuick
