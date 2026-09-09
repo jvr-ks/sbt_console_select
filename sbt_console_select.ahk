@@ -1567,8 +1567,6 @@ extraFunctions(lines, i){
     ToolTip,,,,2
   } 
   
-
-  
   return
 }
 ;---------------------------- extraFunctionsHide ----------------------------
