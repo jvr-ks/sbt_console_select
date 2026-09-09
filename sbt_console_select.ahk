@@ -1065,8 +1065,8 @@ replLoadAction(selectAll := false){
           
           ;---------------------------- other REPL-commands ----------------------------
           if (!specialCommand){
-            SendInput,{text}%toSend%
-            SendInput,{Enter}
+            SendInput {text}%toSend%
+            SendInput {Enter}
           }
         }
         
@@ -1155,7 +1155,7 @@ replReset(){
     winActivate
 
     toSend := ":reset`n"
-    SendInput,{text}%toSend%
+    SendInput {text}%toSend%
 
     if (FileExist(replFilePart1))
       FileDelete, %replFilePart1%
@@ -1298,17 +1298,13 @@ guiMainListViewClick(){
   return
 }
 ;---------------------------- sendTextToCmdexe ----------------------------
-sendTextToCmdexe(toSend := "", ctrl := 0){
+sendTextToCmdexe(toSend := ""){
   global lastPid
   
   if WinExist("ahk_pid " lastPid){
     WinActivate
-    if (ctrl){
-      SendInput, {Ctrl Down}%toSend%{Ctrl Up}{ENTER}
-    } else {
-      SendInput, {text}%toSend%
-      SendInput, {Enter}
-    }
+    SendInput {text}%toSend%
+    SendInput {Enter}
   } else {
     msgbox, Window (PID: %lastPid%) not found!
   }
@@ -1324,8 +1320,8 @@ sendTextToWtexe(toSend := "", wtTitle := ""){
     
     e := WinExist(wtTitle)
     WinGet, lastPid, PID , ahk_id %e%
-    SendInput,{text}%toSend%
-    SendInput,{Enter}
+    SendInput {text}%toSend%
+    SendInput {Enter}
   }
   
   return
@@ -1339,8 +1335,8 @@ sendTextToWSLexe(toSend := "", wtTitle := ""){
   ClipWait,,0
   
   if (lastPid){
-    SendInput,{Shift down}{RBUTTON}{Shift up}
-    SendInput,{Enter}
+    SendInput {Shift down}{RBUTTON}{Shift up}
+    SendInput {Enter}
   } else {
     msgbox, Window %wtTitle% (PID: %lastPid%) not found!
   }
@@ -1364,12 +1360,12 @@ sendLinesEachDelayed(toSend := "") {
     for i, line in lines {
        if (!sendStopped){
         if (line = ""){
-          SendInput,{Enter} 
+          SendInput {Enter} 
           sectionDelay(lines, i)
         } else {
           t := extraFunctionsHide(line)
-          SendInput,{text}%t%
-          SendInput,{Enter} 
+          SendInput {text}%t%
+          SendInput {Enter} 
           sectionDelayPossible(lines, i)
           emptyLineCounter := 0
           lineCounter += 1
@@ -1797,10 +1793,10 @@ unselect(){
 }
 ;--------------------------------* sendExit --------------------------------*
 sendExit(){
-  sendInput,{Ctrl Down}d{Ctrl Up}{ENTER}
+  SendInput {Ctrl Down}d{Ctrl Up}{ENTER}
   sleep, 1000
-  sendInput,exit
-  sendInput,{ENTER}
+  SendInput exit
+  SendInput {ENTER}
 
   return
 }
@@ -1989,9 +1985,9 @@ WinMonitor(hwnd, Center := 1) {
 ;---------------------------- ConsoleWindowClass ----------------------------
 ; *enter::
 ; if (WinActive("ahk_class ConsoleWindowClass")) {
-  ; sendInput, ^j
+  ; SendInput  ^j
 ; } else {
-  ; sendInput,{enter}
+  ; SendInput {enter}
 ; }
 
 ;----------------------------------- hkToDescription ------------------------------
