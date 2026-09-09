@@ -394,6 +394,29 @@ closeSBTWindow() {
   }
 
   return
+
+}
+;--------------------------------- closeREPL ---------------------------------
+closeREPL() {
+  global lastPid, lastOpenedTitle
+
+  if (lastPid != 0){
+    if WinExist("ahk_pid " lastPid){
+      showHint("**** Closing console **** " , 3000)
+      Winactivate, ahk_pid %lastPid%
+      Send ^d
+    } else {
+      if WinExist(lastOpenedTitle){
+        showHint("**** Closing console **** " , 3000)
+        Winactivate, %lastOpenedTitle%
+        Send ^d
+      } else {
+        msgbox, Window to close the REPL (%lastPid%) or (%lastOpenedTitle%) not found!
+      }
+    }
+  }
+
+  return
 }
 ;-------------------------------- mainWindow --------------------------------
 mainWindow() {
@@ -992,7 +1015,7 @@ replLoadAction(selectAll := false){
 
           if (isLoadExec){
             useImportFile := RegExMatch(code,"iO)\/\*\* useImports=([\S-_]+)", m)
-            code := RegExReplace(code, "iO)\/\*\* useImports=.*\*\/", "")
+            code := RegExReplace(code, "iO)\/\*\* useImports=.*\*\/\R?", "")
             ;msgbox, %code%
             
             if (useImportFile > 0){
@@ -1275,14 +1298,17 @@ guiMainListViewClick(){
   return
 }
 ;---------------------------- sendTextToCmdexe ----------------------------
-sendTextToCmdexe(toSend := ""){
+sendTextToCmdexe(toSend := "", ctrl := 0){
   global lastPid
   
   if WinExist("ahk_pid " lastPid){
     WinActivate
-
-    SendInput {text}%toSend%
-    SendInput,{Enter}
+    if (ctrl){
+      SendInput, {Ctrl Down}%toSend%{Ctrl Up}{ENTER}
+    } else {
+      SendInput, {text}%toSend%
+      SendInput, {Enter}
+    }
   } else {
     msgbox, Window (PID: %lastPid%) not found!
   }
@@ -1298,11 +1324,8 @@ sendTextToWtexe(toSend := "", wtTitle := ""){
     
     e := WinExist(wtTitle)
     WinGet, lastPid, PID , ahk_id %e%
-    
     SendInput,{text}%toSend%
-    SendInput,{Enter} 
-  } else {
-    msgbox, WindowsTerminal %wtTitle% (PID: %lastPid%) not found!
+    SendInput,{Enter}
   }
   
   return
@@ -1527,10 +1550,16 @@ extraFunctions(lines, i){
       switch terminalType
       {
         case "CMD":
+          closeREPL()
+          sleep, 3000
           sendTextToCmdexe(startCmd)
         case "WT":
+          closeREPL()
+          sleep, 3000
           sendTextToWtexe(startCmd, lastOpenedTitle)
         case "WSL":
+          closeREPL()
+          sleep, 3000
           sendTextToWSLexe(startCmd, lastPid)
       }
     }
@@ -1545,9 +1574,9 @@ extraFunctions(lines, i){
 ;---------------------------- extraFunctionsHide ----------------------------
 extraFunctionsHide(codeLine){
  
-  codeLine := RegExReplace(codeLine,"iO)\/\*\* delay=.*\*\/", "")
-  codeLine := RegExReplace(codeLine,"iO)\/\*\* showmessage.*?=.*\*\/", "")
-  codeLine := RegExReplace(codeLine,"iO)\/\*\* replRestart.*\*\/", "")
+  codeLine := RegExReplace(codeLine,"iO)\/\*\* delay=.*\*\/\R?", "")
+  codeLine := RegExReplace(codeLine,"iO)\/\*\* showmessage.*?=.*\*\/\R?", "")
+  codeLine := RegExReplace(codeLine,"iO)\/\*\* replRestart.*\*\/\R?", "")
 
   return codeLine
 }
