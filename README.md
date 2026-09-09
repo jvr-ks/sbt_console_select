@@ -99,34 +99,12 @@ Not commented/shown versions are bugfixes!
   
 Version (&gt;=)| Change
 ------------ | -------------  
-0.268 | Documentation updated
+0.268 | Import filename may contain "-_"-characters
+0.267 | Documentation updated
 0.266 | New Metacommands
 0.260 | Only block comments are removed (besides starting with "/\*\*" but are reserved to Metacommands)!
-0.253 | Scala-cli support introduced
-0.250 | Killswitch ESCAPE ("--load CE--" mode only)
-0.248 | New replcommand "--load CE--" if the Scala REPL needs more time, i.e. code contains Cats Effect functional code  
-0.247 | New hotkey to close Scala prompt and the console window: **\[CTRL] + \[ALT] + \[t]**
-0.246 | Bugfixes
-0.245 | Enterbutton usable to select list entry
-0.237 | Select terminal type: default: %comspec%, "$WSL$" inside the name: wsl.exe, "$WT$" inside the name: Windows Terminal
-0.233 | Changed the way the console title is set  
-0.232 | Changed the temporary filenames to "replPart1.hs" / "replPart2.hs" (to be usable with GHCI)
-0.229 | Title of WSL tabs
-0.228 | replcommandsHotkey removed, replaced by auto load
-0.228 | "\[replcommands]"-section replaced by the simple CSV value "config" - &gt; "replcommands=:reset, etc. ..."
-0.225 | Please delete your "sbt_console_select.ini"-file, a new one (modified) will be created
-0.220 | Bugfixes, open cmd-window mechanism changed
-0.219 | Bugfixes: open/close with curl
-0.218 | "// useImports=FILENAME" changed to: "/\*\* useImports=FILENAME \*/" \[importsFileName= and useImports= removed!]
-0.217 | Given some extra time to close an already open shell-window  
-0.216 | importsFileName=FILENAME changed to useImports=FILENAME
-0.215 | imports mechanism changed 
-0.214 | WSL support enhanced  
-0.211 | "switch back to editor" is set to \[CTRL]-key again, not using the \[ALT]-key anymore  
  
-  
-\*1) send to console after "title", example: additionalCommand=chcp 65001  
-  
+    
 #### Known issues / bugs  
   
 Issue / Bug | Type | fixed in version  
