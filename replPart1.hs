@@ -1,3 +1,5 @@
-val wd = os.pwd / "_toGitHub" /** delay=3000 */
+val wd = os.pwd / "_toGitHub" 
 val gitStatus = os.proc("git", "status").call(wd)
+
+
 

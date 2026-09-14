@@ -875,11 +875,14 @@ or an entry in the config file -&gt; \[setup] -&gt; restapioff=1.
   
 ##### WSL [(Windows Subsystem for Linux)](https://docs.microsoft.com/en-us/windows/wsl/install)  
   
-Instead of a Windows-console window, a WSL shell can be openend (if WSL is installed!).  
-If the name (first clumn) contains "$WSL$" at any position, WSL is used.  
+Instead of a Windows console window, a WSL shell can be openend (if WSL is installed!).  
+If the name (first column) contains "$WSL$" at any position, WSL is used.  
 The path in the command file should be kept in Windows-format,  
-the file "replcommands.txt" is read from the Windows-side
-  
+the file "replcommands.txt" is read from the Windows-side.  
+To make the console title writable (to identify the window) append:  
+PS1='\[\033[1;36m\][\[\033[1;34m\]\u\[\033[1;33m\]@\[\033[1;32m\]\h:\[\033[1;35m\]\w\[\033[1;36m\]]\[\033[1;31m\]\\$\[\033[0m\] '
+to the file "~/bash.bashrc".  
+    
 ##### Using Haskell GHCI (with WSL) instead of SBT console  
   
 Changes made to make the usage of Haskell GHCI possible are:  
@@ -923,8 +926,8 @@ Copyright (c) 2020/2021 J. v. Roos
 
 
 ##### Virusscan at Virustotal 
-[Virusscan at Virustotal, sbt_console_select.exe 64bit-exe, Check here](https://www.virustotal.com/gui/url/49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd/detection/u-49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd-1789378827
+[Virusscan at Virustotal, sbt_console_select.exe 64bit-exe, Check here](https://www.virustotal.com/gui/url/49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd/detection/u-49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd-1789382416
 )  
-[Virusscan at Virustotal, sbt_console_select32.exe 32bit-exe, Check here](https://www.virustotal.com/gui/url/9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9/detection/u-9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9-1789378828
+[Virusscan at Virustotal, sbt_console_select32.exe 32bit-exe, Check here](https://www.virustotal.com/gui/url/9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9/detection/u-9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9-1789382418
 )  
 Use [CTRL] + Click to open in a new window! 
