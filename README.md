@@ -41,7 +41,7 @@ Download Updater from Github to the previously created directory:
 or  
 [updater.exe 32bit](https://github.com/jvr-ks/sbt_console_select/raw/main/updater32.exe)  
   
-[Viruscheck see Updater repository](https://github.com/jvr-ks/updater)  
+[Virus check: please check the updater repository](https://github.com/jvr-ks/updater)  
    
 
 or single files:  
