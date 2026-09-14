@@ -1,8 +1,7 @@
 # sbt_console_select
     
 ##### Hint  
-The code is loaded using the REPL "load: " command,
-(except when using the "--load CE--" mode),  
+The code is loaded using the REPL "load: " command (except when using the "--load CE--" mode),  
 which is more reliable (Scala 3.8.2+ required!).  
   
 Included test file: "testREPL.scsc", "testReplCE.scsc" and "build.sbt"  
@@ -16,9 +15,9 @@ Simple app to start "sbt console" or "sbt consoleQuick" (or GHCI) in different d
 using additional information supplied by the SBT build system.  
 Windows only, but can be used with the WSL.  
   
-The app changes the Clipboard-content!  
+The app changes the clipboard content!  
   
-Can be used to start any programm/app in a selectable directory.  
+Can be used to start any program/app in a selectable directory.  
 ("sbt console" needs a ["build.sbt"-file](https://www.scala-sbt.org/1.x/docs/Basic-Def.html) in the running directory  
 and the file "project\build.properties" with the SBT version information).  
   
@@ -27,13 +26,13 @@ and the file "project\build.properties" with the SBT version information).
 ##### App status  
 
 * Usable, but work in progress!  
-* The transfer to the console is not 100% reliable  
-
+* The transfer to the console is not 100% reliable.  
+  
 ##### Download  
   
-Portable, run from any directory, but running from a subdirectory of the windows programm-directories   
+Portable, run from any directory, but running from a subdirectory of the windows program directories   
 (C:\Program Files, C:\Program Files (x86) etc.)  
-requires admin-rights and is not recommended! 
+requires admin rights and is not recommended! 
 
 Via Updater (preferred method):  
    
@@ -60,7 +59,7 @@ and:
 <a href="#virusscan">Virus check see below.</a>
   
 #### Hints  
-* The REPL currently only support single line function parameter definitions, example:  
+* The REPL currently only supports single line function parameter definitions, example:  
 ```
 def test(
   a: Int,
@@ -75,41 +74,41 @@ is valid Scala 3 code, but the REPL shows the error:
   |         an identifier expected, but eof found
 ```  
 * sbt_console_select can only operate on console windows opened by the current instance of sbt_console_select!  
-* To run in the background listening to API calls use "sbt_console_select.exe hidewindow"
+* To run in the background listening to API calls use "sbt_console_select.exe hidewindow".
 * Select terminal type:  
   default: %comspec% (= cmd.exe),  
   "$WSL$" inside the name: wsl.exe,  
   "$WT$" inside the name: Windows Terminal ("wt.exe" must be included in the Windows Path!),  
-* Last opened (by sbt_console_select) Console-Window is peferred over other Console-Windows running. 
+* Last opened (by sbt_console_select) Console Window is preferred over other Console Windows running. 
 * Can be used to start sbt or Scala-cli, and other tools.  
 * REPL Past mode is removed from SBT, use \{ ... \} instead!  
 * Do not use "Aottext" to hold the code to execute.  
   Aottext aggressively grabs the focus so the command-windows does not get the focus! 
-* **sbt_console_select.exe runs in the background after start! Use the hotkey \[ALT] + \[t] to show the app-window**
-* [SBT](https://www.scala-sbt.org/) should be be installed to use it.  
+* **sbt_console_select.exe runs in the background after start! Use the hotkey \[ALT] + \[t] to show the app-window**.
+* [SBT](https://www.scala-sbt.org/) should be installed to use it.  
 * The *.default-files are used by the Updater.  
-* Make sure that the names in the Command-file are exclusive, i.e. no other open window has it as a title not even as a part of it's title!  
-  Names should NOT contain spaces! (Using the Rest-API names are part of an url and spaces must be replaced by "%20" then!)  
-* Default Installation-directory that is suggested by "Updater" is "C:\jvrde\sbt_console_select",  
+* Make sure that the names in the command file are exclusive, i.e., no other open window has it as a title not even as a part of it's title!  
+  Names should NOT contain spaces! (Using the REST API names are part of an url and spaces must be replaced by "%20" then!).  
+* Default installation directory that is suggested by "Updater" is "C:\jvrde\sbt_console_select",  
   but any writable directory can be used.  
-* Does not use the JAVA_HOME(S) SBT mechanisnm.
-* WARNING: A terminally deprecated method in sun.misc.Unsafe has been called ...(and perhaps other messages)  
-* * The problem is the time the REPL takes to output the warning;  
-* * this causes it to miss the beginning of the next line of code,  
-* * though there are differences between the various consoles.  
-* * Add \/\*\*delay=3000 \*/ after the first code command (delay amount varies)  
-* * You may additionally add 2>nul after the Scala-cli REPL start command to hide stderr entirely  
-* * Instead always run a dummy codeline first (and after each REPL reset)  
+* Does not use the JAVA_HOME(S) SBT mechanism.
+* WARNING: A terminally deprecated method in sun.misc.Unsafe has been called (and perhaps other messages) ... .  
+The problem is the time the REPL takes to output the warning;  
+This causes it to miss the beginning of the next line of code,  
+though there are differences between the various consoles.  
+Add \/\*\*delay=3000 \*/ after the first code command (delay amount varies).  
+You may additionally add 2>nul after the Scala-cli REPL start command to hide stderr entirely.  
+Instead, always run a dummy code line first (and after each REPL reset).  
 
 #### Latest changes:  
 Not commented/shown versions are bugfixes!  
   
 Version (&gt;=)| Change
 ------------ | -------------  
-0.268 | Import filename may contain "-_"-characters
+0.268 | Import filename may contain "-_" characters
 0.267 | Documentation updated
 0.266 | New Metacommands
-0.260 | Only block comments are removed (besides starting with "/\*\*" but are reserved to Metacommands)!
+0.260 | Only block comments are removed (besides starting with "/\*\*" but are reserved for metacommands)!
  
     
 #### Known issues / bugs  
@@ -123,11 +122,11 @@ Ctrl + E copies old contents | bug | 0.179
     
 ##### Usage  
   
-* Start sbt_console_select by a doubleclick onto the file "sbt_console_select.exe".  
+* Start sbt_console_select by a double-click onto the file "sbt_console_select.exe".  
 or  
-* drag the "sbt_console_select.exe" to the taskbar.  
+* Drag the "sbt_console_select.exe" to the taskbar.  
 or  
-* create a shortcut of "sbt_console_select.exe" in the windows-autostart folder ("shell:startup")  
+* Create a shortcut of "sbt_console_select.exe" in the windows-autostart folder ("shell:startup")  
 and add "hidewindow" as a parameter.  
 Two powershell scripts included:  
 "create_sbt_console_select_exe_link_hidewindow_in_autostartfolder.bat"
@@ -136,27 +135,26 @@ to be used with the project [startdelayed](https://github.com/jvr-ks/startdelaye
 "create_sbt_console_select_exe_link_hidewindow.bat"
 
 or manually:   
--&gt; "sbt_console_select - Shortcut.lnk" -&gt; rightclick -&gt; properties -&gt; target -&gt; add "hidewindow" as a parameter,  
-(and optional the Command-file and Config-file path),  
+-&gt; "sbt_console_select - Shortcut.lnk" -&gt; right click -&gt; properties -&gt; target -&gt; add "hidewindow" as a parameter,  
+(and optional the command file and config file path),  
 then start with the hotkey.  
 
-Click an entry in the list to start the command as defined in the Command-file: "sbt_console_select.txt".  
+Click an entry in the list to start the command as defined in the command file: "sbt_console_select.txt".  
 
 ##### Hotkey operations supplied by the app  
   
 [Overview of all default Hotkeys used by my Autohotkey "tools"](https://github.com/jvr-ks/cmdlinedev/blob/main/hotkeys.md)  
   
-The default Config-file is: "sbt_console_select.ini".  
+The default config file is: "sbt_console_select.ini".  
   
-Hotkeys are defined in the "\[config]"-section of the Config-file:  
+Hotkeys are defined in the "\[config]"-section of the config file:  
   
 * menuhotkey: **\[ALT] + \[t]** -&gt; open menu,    
 * closeHotkey (close the REPL window): **\[CTRL] + \[ALT] + \[t]** -&gt; sends \[CTRL] + \[d] and "exit",   
 * exitHotkey (kill the app): **\[SHIFT] + \[ALT] + \[t]** -&gt; sends \[CTRL] + \[d] and "exit",  
 * escapeHotkey (inhibit sending code to the REPL): **\[SHIFT] + \[Esc],  
-* escapeForcedHotkey (forced to immediatedly stop sending code to the REPL): \[Esc],
- 
-
+* escapeForcedHotkey (forced to immediately stop sending code to the REPL): \[Esc],
+  
 Hotkeys to be used in a text-editor:  
 * replLoadSelectedHotkey: **\[CTRL] + \[e]**  
 execute the seleted part of the code (as part 1 or with --load CE--) from the editor-page in the SBT-console-REPL.  
@@ -176,10 +174,10 @@ save the code as code part 2 or delete it (if nothing is seleted).
 Start a sbt-console window by selecting an entry.  
 Entry names must be enclosed in parentheses and must not contain spaces!  
 Then open your text-editor with the code to be executed with your editor and mark it,  
-or mark any code elsewhere, i.e. in your browser.  
+or mark any code elsewhere, i.e., in your browser.  
 Press the replLoadHotkey, the code is executed in the SBT-console-REPL.  
 Press the \[CTRL]-key to switch back to your editor.  
-Holding down the \[CTRL]-key other commands can be emitted first, i.e. killing the REPL (\[CTRL] + [c]), copy text etc., auto-switching back afterwards.   
+Holding down the \[CTRL]-key other commands can be emitted first, i.e., killing the REPL (\[CTRL] + [c]), copy text etc., auto-switching back afterwards.   
 If your code execution needs two parts (if using a companion object),  
 append the code part 2 surrounded by the comment (pseudocode) "/*\* code part 2 section" ... "*/" 
 to your code:  
@@ -193,14 +191,14 @@ code part 2
 (Saves the 2nd part also, position of code part 2 section doesn't matter).  
   
 If you want to execute only the selected part of the code, press the replLoadSelectedHotkey (default: **\[CTRL] + \[e]**).   
-To always execute a second part besides a seleted part, mark the second part (i.e. code part 2)  
+To always execute a second part besides a seleted part, mark the second part (i.e., code part 2)  
 and press the replSelectLoadPart2Hotkey: **\[SHIFT] + \[ALT] + \[e]** once.  
 The second part is saved, so you must not always mark the code part 2 too.  
 (Cleaned by the reset-hotkey (default is: \[CTRL] + r)).  
     
 ##### Code execution internals  
   
-The Config-file section "\[config]" contains the definiton of the replcommands="..." as a CSV list.  
+The config file section "\[config]" contains the definiton of the replcommands="..." as a CSV list.  
 The replcommands are executed from left to right.  
 There are 3 "pseudo"-commands defined internally:  
 ```  
@@ -217,7 +215,7 @@ If the command "--load the code part 1-- " is reached, the SBT-console-REPL ":lo
 is executed, likewise "--load the code part 2--" -&gt; ":load "sbt_console_select"-directory\replPart2.hs"
   
 If your code uses Cats Effect use the "--load CE--" instead of "--load the code part 1--"    
-in the Config-file section "\[config]" replcommands="..." or use a file "replcommands.txt" 
+in the config file section "\[config]" replcommands="..." or use a file "replcommands.txt" 
 in the running directory containing: 
 ```
 --load imports--,--load CE--   
@@ -302,7 +300,7 @@ Windows only!
 #### Imports mechanism  
 To load an Importfile insert a comment like "/\*\* useImports=FILENAME \*/" into your code,  
 example: /\*\* useImports=repl-imports.sctxt \*/
-Upon reaching the "replcommandN=--load imports--" command, the file is loaded, i.e.  
+Upon reaching the "replcommandN=--load imports--" command, the file is loaded, i.e.,  
 :load FILENAME  
 is executed.  
 It must always be the first line of the code!  
@@ -351,7 +349,7 @@ After running "scala-cli repl repl-options.scala -S 3.8.4"  and executing
 /** useImports=repl-imports.sctxt */  
   
 ```
-i.e. selecting /\*\* useImports=repl-imports.sctxt \*/ and pressing \[CTRL] + \[e]  
+i.e., selecting /\*\* useImports=repl-imports.sctxt \*/ and pressing \[CTRL] + \[e]  
   
 The REPL Command  
 ```
@@ -470,7 +468,7 @@ Hints:
   the code gets lost.  
   You have to wait until the REPL has finished after each section!  
   But I found no simple way to detect the end of a code section,  
-  i.e. a blank line may signal the code section end or may signal nothing,  
+  i.e., a blank line may signal the code section end or may signal nothing,  
   but make the code more readable.  
   Another problem is how to estimated the amount of time to wait the REPL needs to process the code section,  
   which depends on the CPU capability too!
@@ -478,7 +476,7 @@ Hints:
   which is not 100% reliable but good enought to be used daily!  
    
 ##### replcommands auto overload  
-Besides changing the config-file,  
+Besides changing the config file,  
 you can create a file "replcommands.txt" in the running directory (NOT the "sbt_console_select.exe"-directory).  
 Example file "replcommands.txt" content (a CSV list) is:  
 ```
@@ -489,10 +487,10 @@ or only:
 --load imports--,--load CE--  
 ```
 
-The content of the "replcommands.txt" will be used instead of the config-file -&gt;  replcommands="...". definition,  
+The content of the "replcommands.txt" will be used instead of the config file -&gt;  replcommands="...". definition,  
 so after running the code all defined imports will be listed.  
   
-The "replcommands.txt" content is NOT copied to the config-file!   
+The "replcommands.txt" content is NOT copied to the config file!   
 
 Hint: "--load imports--,:imports" loads the imports and shows them.
 The imports must be defined using a command like "\/\*\* useImports=fs2Imports.sctxt \*\/"
@@ -627,7 +625,7 @@ or something likewise.
 Killswitch: 
 During "--load CE--" mode action, the killswitch (ESCAPE key) ist activated.  
 If the REPL console crashes "sbt_console_select" may send the code commands to the next open window.  
-To stop it immediatedly press the **\[ESCAPE]** key!  
+To stop it immediately press the **\[ESCAPE]** key!  
 TO stop just the data transfer press **\[SHIFT] + \[ESCAPE]** !  
 
 ##### Configuration setup: 
@@ -792,7 +790,7 @@ Scala-version: SBT uses the definition in the file "build.sbt"
   
 ##### Configure "sbt_console_select":  
 
-* Click on \[Edit] -&gt; \[Edit Command-file], edit the last line ", sbt -sbt-version 1.5.4 consoleQuick,graalvm11_203", replace "graalvm11_203" with your just configured Java/JDK name, save, close editor  
+* Click on \[Edit] -&gt; \[Edit command file], edit the last line ", sbt -sbt-version 1.5.4 consoleQuick,graalvm11_203", replace "graalvm11_203" with your just configured Java/JDK name, save, close editor  
 (-sbt-version 1.5.4 is added because there is not "project/build.properties"-file yet (is created then),  
 the path is not set, so using the actual path of the "sbt_console_select.exe")    
   
@@ -810,15 +808,15 @@ the path is not set, so using the actual path of the "sbt_console_select.exe")
 ##### Executable  
 
 * "sbt_console_select.exe"  
-* "sbt_console_select.exe" &lt;Command-file&gt; &lt;Config-file&gt; &lt;hidewindow&gt; &lt;remove&gt;   
+* "sbt_console_select.exe" &lt;command file&gt; &lt;config file&gt; &lt;hidewindow&gt; &lt;remove&gt;   
  
-&lt;Command-file&gt;, &lt;Config-file&gt; see below
+&lt;command file&gt;, &lt;config file&gt; see below
 &lt;hidewindow&gt; = the word "hidewindow" 
 &lt;remove&gt; = the word "remove" , remove app from memory (to compile a new one)  
   
 ##### Command parameter
 Any command can have additional command-parameter, separated by a "#".  
-Command-parameter text is send to the console-window using the clipboard and a \[Shift-right] click.  
+Command-parameter text is send to the Console Window using the clipboard and a \[Shift-right] click.  
   
 The A messagebox is shown before sending.  
   
@@ -828,14 +826,14 @@ There are hardcoded Command-parameter with special functionality:
 
 ##### Configuration  
 
-* Config-file, default is "sbt_console_select.ini",  
+* config file, default is "sbt_console_select.ini",  
 contains name=value pairs,  
 divided by different \[sections].
 Currently:  
 - Hotkey definitions  
 - Path to Notepad\++, emailapp and filemanager. 
    
-The Config-file **must** have the extension *.ini  
+The config file **must** have the extension *.ini  
   
 Only simple Hotkey modifications are reflected in the menu.  
 (Parsing is limited to \[CTRL], \[ALT], \[WIN], \[SHIFT]).  
@@ -847,13 +845,13 @@ Startparameter |  action
 ------------ | ------------- 
 hidewindow | start app in the background  
 Command-number: 1 or 2 ... N | autostart this command (app stays in the background afterwards)
-Config-file | must have extension ".ini"
-Command-file | must have extension ".txt"
+config file | must have extension ".ini"
+command file | must have extension ".txt"
 remove | removes app from memory
 
 ##### Rest Api
 Seleting an entry via the commandline (besides manual selection) takes time because the app must be restarted.  
-From version 0.188 the app is listening on port scsRestPort (Config-file -&gt; \[setup], 65505 is default), path: "scs".  
+From version 0.188 the app is listening on port scsRestPort (config file -&gt; \[setup], 65505 is default), path: "scs".  
 Known commands:  
 * open=[entryname]   
 * close=[entryname]  
@@ -872,13 +870,13 @@ curl http://localhost:65505/scs?close=(testareaQuick)
 Sends Ctrl-D (closes the REPL) and "exit" to the console window named (title contains with) "testareaQuick". 
   
 To stop sbt_console_select from listening to the port the command-line parameter "restapioff" may be used,  
-or an entry in the Config-file -&gt; \[setup] -&gt; restapioff=1.  
+or an entry in the config file -&gt; \[setup] -&gt; restapioff=1.  
   
 ##### WSL [(Windows Subsystem for Linux)](https://docs.microsoft.com/en-us/windows/wsl/install)  
   
 Instead of a Windows-console window, a WSL shell can be openend (if WSL is installed!).  
 If the name (first clumn) contains "$WSL$" at any position, WSL is used.  
-The path in the Command-file should be kept in Windows-format,  
+The path in the command file should be kept in Windows-format,  
 the file "replcommands.txt" is read from the Windows-side
   
 ##### Using Haskell GHCI (with WSL) instead of SBT console  
@@ -924,8 +922,8 @@ Copyright (c) 2020/2021 J. v. Roos
 
 
 ##### Virusscan at Virustotal 
-[Virusscan at Virustotal, sbt_console_select.exe 64bit-exe, Check here](https://www.virustotal.com/gui/url/49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd/detection/u-49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd-1789374027
+[Virusscan at Virustotal, sbt_console_select.exe 64bit-exe, Check here](https://www.virustotal.com/gui/url/49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd/detection/u-49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd-1789376611
 )  
-[Virusscan at Virustotal, sbt_console_select32.exe 32bit-exe, Check here](https://www.virustotal.com/gui/url/9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9/detection/u-9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9-1789374028
+[Virusscan at Virustotal, sbt_console_select32.exe 32bit-exe, Check here](https://www.virustotal.com/gui/url/9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9/detection/u-9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9-1789376613
 )  
 Use [CTRL] + Click to open in a new window! 
