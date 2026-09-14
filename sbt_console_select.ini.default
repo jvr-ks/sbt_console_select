@@ -1,0 +1,35 @@
+[hotkeys]
+menuHotkey="!t"
+replLoadHotkey="!e"
+replSelectLoadHotkey="^e"
+replSelectLoadPart2Hotkey="+!e"
+replResetHotkey="^r"
+exitHotkey="+!t"
+replcommandsHotkeyDefault = "^!t"
+
+[external]
+emailpath="C:\Program Files (x86)\Mozilla Thunderbird\thunderbird.exe"
+filemanagerpath="%SystemRoot%\explorer.exe"
+;filemanagerpath="C:\Program Files\GPSoftware\Directory Opus\dopus.exe"
+
+[config]
+font="Calibri"
+fontsize=10
+windowPosX=21
+windowPosY=84
+windowWidth=2708
+windowHeight=1053
+additionalCommand="chcp 65001"
+useimportsfile=0
+wslStart="C:\Windows\System32\wsl.exe"
+scsRestPort=65505
+restapioff=0
+
+[replcommands]
+replcommand1=:reset
+replcommand2=--load imports--
+replcommand3=--load the code part 1--
+replcommand4=--load the code part 2--
+replcommand5=
+
+

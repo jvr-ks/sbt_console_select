@@ -1,0 +1,24 @@
+println("Sleep test started!")
+var t1 = System.nanoTime
+
+println(s"After 0 milliseconds sleep, duration was:")
+var duration = (System.nanoTime - t1) / 1e9d
+
+println(s"$duration (Data transfer time only)")
+t1 = System.nanoTime
+
+// sleep=7000
+duration = (System.nanoTime - t1) / 1e9d
+println(s"After 7000 milliseconds, duration was $duration")
+
+t1 = System.nanoTime
+// sleep=2000
+duration = (System.nanoTime - t1) / 1e9d
+println(s"After 2000 milliseconds, duration was $duration")
+
+t1 = System.nanoTime
+// sleep=5000
+duration = (System.nanoTime - t1) / 1e9d
+println(s"After 5000 milliseconds, duration was $duration")
+
+println("Test finished!")

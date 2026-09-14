@@ -1,0 +1,21 @@
+import cats.effect.*
+import cats.syntax.all.*
+import cats.implicits.*
+import cats.effect.std.Console
+import cats.effect.unsafe.implicits.global
+import fansi.*
+import fs2.*
+import fs2.io.file.{Files, Path}
+import scala.concurrent.duration.*
+import scala.swing.*
+import scala.swing.BorderPanel.Position.*
+import scala.collection.immutable.Queue
+import scala.math.BigDecimal.double2bigDecimal
+import org.legogroup.woof.{given, *}
+import org.legogroup.woof.Logger.given_Printer
+
+extension [A](io: IO[A])
+  def trace: IO[A] = for {
+    res <- io
+    _   <- IO.println(s"[${Bold.On(Color.Red(Thread.currentThread.getName)).render}] ${Underlined.On(Color.Green(res.toString)).render}")
+  } yield res
