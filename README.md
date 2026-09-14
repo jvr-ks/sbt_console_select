@@ -310,7 +310,7 @@ Globally used code can be appended.
 #### Configuration file
 Scala-cli REPL uses an extra configuration file.  
 If the start command is: "scala-cli repl repl-options.scala -S 3.8.2",  
-the Configurationfile "repl-options.scala" must contain dependency definitions.  
+the configuration file "repl-options.scala" must contain dependency definitions.  
   
 Example:  
 ```
@@ -457,29 +457,29 @@ run.unsafeRunSync()
 ![Image swing_repl.jpg](swing_repl.jpg)
   
 Hints:  
-- Configuration File "sbt_console_select.ini",  
-- To turn off timing display set Configuration File section "config" -> "showWait=0",  
-- Canceling (Swing Gui) will cancel the REPL also,  
-- Keep the REPL window in the forground while running,  
-- If the REPL fails add an empty line to add extra time (delayLinesDefault=500)  (500 milliseconds),  
-- \/\* Comments are suppressed. \*\/,  
+- Configuration File "sbt_console_select.ini".  
+- To turn off timing display set Configuration File section "config" -> "showWait=0".  
+- Cancelling (Swing Gui) will cancel the REPL also.  
+- Keep the REPL window in the foreground while running.  
+- If the REPL fails add an empty line to add extra time (delayLinesDefault=500)  (500 milliseconds).  
+- \/\* Comments are suppressed. \*\/.  
 - \/\*\* Comments are not suppressed. \*\/.  
 - Newline problem: Each section of code needs some time to be processed by the REPL.  
-  If you send the next section of code while the REPL is still processing,  
+  If you send the next section of code while the REPL is still processing.  
   the code gets lost.  
   You have to wait until the REPL has finished after each section!  
-  But I found no simple way to detect the end of a code section,  
-  i.e., a blank line may signal the code section end or may signal nothing,  
+  But I found no simple way to detect the end of a code section.  
+  i.e., a blank line may signal the code section end or may signal nothing.  
   but make the code more readable.  
-  Another problem is how to estimated the amount of time to wait the REPL needs to process the code section,  
+  Another problem is how to estimate the amount of time to wait the REPL needs to process the code section,  
   which depends on the CPU capability too!
   Sbt-console-select uses a very simple mechanism to determine the waiting time,  
-  which is not 100% reliable but good enought to be used daily!  
+  which is not 100% reliable but good enough to be used daily!  
    
 ##### replcommands auto overload  
 Besides changing the config file,  
 you can create a file "replcommands.txt" in the running directory (NOT the "sbt_console_select.exe"-directory).  
-Example file "replcommands.txt" content (a CSV list) is:  
+The example file "replcommands.txt" content (a CSV list) is:  
 ```
 :reset,--load imports--,:imports,--load the code part 1--,--load the code part 2--
 ```  
@@ -489,7 +489,7 @@ or only:
 ```
 
 The content of the "replcommands.txt" will be used instead of the config file -&gt;  replcommands="...". definition,  
-so after running the code all defined imports will be listed.  
+so after running the code, all defined imports will be listed.  
   
 The "replcommands.txt" content is NOT copied to the config file!   
 
@@ -501,12 +501,12 @@ inside the code file!
 Does not use the REPL "load: ..." command" (besides loading the imports if "useImports=" is used)  
 but sends the code via the Windows "postmessage" command,  
 which has some benefits:  
-- Getting more information from the REPL,  
-- Interactive REPL operations like replace single functions etc.,  
+- Getting more information from the REPL.  
+- Interactive REPL operations like replace single functions etc.    
 - The REPL history is usable.  
   
 but some drawbacks also:  
-- it's very slow!  
+- It's very slow!  
 
 Metacommands defined:  
 ```
@@ -527,27 +527,27 @@ Metacommand Examples:
 ```
 
    
-The REPL fails, if it has not enough time to calculate the code (especially functional code),  
+The REPL fails if it does not have enough time to calculate the code (especially functional code),  
 so the time given to the REPL is estimated by "sbt_console_select",  
 depending on the type of each codeline.  
 (Under construction, configuration file -> section "delay").  
    
-Put any Companion Class and Object into curly braces \{ ... \} !  
+Put any companion class and object into curly braces \{ ... \} !  
   
 If the REPL cannot determine if the code is complete,  
-you have to press an extra \[ENTER\] at the end of the code.  
+You have to press an extra \[ENTER\] at the end of the code.  
 Example:  
 ``` 
 def test() =
   println("test")
   println(999)
 ```  
-// The REPL cannot determine, if some code will follow or not, so it will wait endless!  
+// The REPL cannot determine if some code will follow or not, so it will wait endlessly!  
 Pressing \[ENTER\] shows:
 ```
 def test(): Unit
 ```
-otherwise:
+Otherwise:
 ```
 def test() =
   println("test")
@@ -609,7 +609,7 @@ main.unsafeRunSync()
 // 2026-08-15 16:07:57 [ERROR] rs$line$7$: I give up (rs$line$7:6)
 ```
 
-#### Using Cats-effect with "--load CE--" mode
+#### Using Cats Effect with "--load CE--" mode
 Remember:  
 - You cannot use "IOApp" and packages in the REPL!  
 - Keyboard input like "Console[IO].readLine" randomly blocks!  
@@ -627,7 +627,7 @@ Killswitch:
 During "--load CE--" mode action, the killswitch (ESCAPE key) ist activated.  
 If the REPL console crashes "sbt_console_select" may send the code commands to the next open window.  
 To stop it immediately press the **\[ESCAPE]** key!  
-TO stop just the data transfer press **\[SHIFT] + \[ESCAPE]** !  
+To stop just the data transfer, press **\[SHIFT] + \[ESCAPE]** !  
 
 ##### Configuration setup: 
 ``` 
@@ -673,7 +673,7 @@ val run =
 run.unsafeRunSync()
 ````
 
-##### Cats-effect example  
+##### Cats Effect example  
 Using the files:  
 "replcommands.txt":  
 ```
@@ -787,7 +787,7 @@ run.unsafeRunSync()
 
 Use [Selja](https://github.com/jvr-ks/selja) and [Selsca](https://github.com/jvr-ks/selsca) to set the approbiate versions.  
 Using SBT:   
-Scala-version: SBT uses the definition in the file "build.sbt"  
+Scala version: SBT uses the definition in the file "build.sbt"  
   
 ##### Configure "sbt_console_select":  
 
@@ -801,7 +801,7 @@ the path is not set, so using the actual path of the "sbt_console_select.exe")
 * Using included files "build.sbt" and "scalafxTest2.sc" which is [based on https://github.com/scalafx/scalafx/blob/main/scalafx-demos/src/main/scala/scalafx/ColorfulCircles.scala](https://github.com/scalafx/scalafx/blob/main/scalafx-demos/src/main/scala/scalafx/ColorfulCircles.scala)
 * Type \[Alt] + \[t] to reopen sbt_console_select
 * Click on the last entry, sbt consoleQuick is started  
-* It takes a moment to start the REPL, (using included file "built.sbt") 
+* It takes a moment to start the REPL (using included file "built.sbt") 
 * Type ":load scalafxTest2.sc"  
 * After closing the demo, type \[Shift] + \[Alt] + \[t] to close the REPL (sends \[Ctrl] + \[D] and "exit")
 * For ScalaFX us \[Ctrl] + \[D] then \[Arrow Up] then ":load scalafxTest2.sc" to restart
@@ -816,8 +816,8 @@ the path is not set, so using the actual path of the "sbt_console_select.exe")
 &lt;remove&gt; = the word "remove" , remove app from memory (to compile a new one)  
   
 ##### Command parameter
-Any command can have additional command-parameter, separated by a "#".  
-Command-parameter text is send to the Console Window using the clipboard and a \[Shift-right] click.  
+Any command can have additional command parameters, separated by a "#".  
+Command-parameter text is sent to the Console Window using the clipboard and a \[Shift-right] click.  
   
 The A messagebox is shown before sending.  
   
@@ -864,7 +864,7 @@ curl http://localhost:65505/scs?open=(testareaQuick)
 Starts the entry named "(testareaQuick)".  
 Instead of curl any browser is usable too. 
   
-Use a batch-file like "curl_open.bat":  
+Use a batch file like "curl_open.bat":  
 curl http://localhost:65505/scs?open=(testareaQuick) 
 
 curl http://localhost:65505/scs?close=(testareaQuick) 
@@ -883,9 +883,9 @@ the file "replcommands.txt" is read from the Windows-side
 ##### Using Haskell GHCI (with WSL) instead of SBT console  
   
 Changes made to make the usage of Haskell GHCI possible are:  
-* the filename-extension of the temporary files changed from ".tmp", to ".hs",  
+* the filename extension of the temporary files changed from ".tmp", to ".hs",  
 SBT doesn't care about the changed temporary filenames.  
-* a specialized "replcommands.txt"-file must be used, containing only commands known by GHCI:
+* a specialised "replcommands.txt"-file must be used, containing only commands known by GHCI:
 * * "--load the code part 1--" -&gt; :load ...replPart1.hs
 * * "--load the code part 2--" -&gt; :load ...replPart2.hs
 * * "--load imports--" -&gt; not yet tested, I'm completely new to Haskell at the moment (2023/08)!
@@ -923,8 +923,8 @@ Copyright (c) 2020/2021 J. v. Roos
 
 
 ##### Virusscan at Virustotal 
-[Virusscan at Virustotal, sbt_console_select.exe 64bit-exe, Check here](https://www.virustotal.com/gui/url/49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd/detection/u-49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd-1789377471
+[Virusscan at Virustotal, sbt_console_select.exe 64bit-exe, Check here](https://www.virustotal.com/gui/url/49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd/detection/u-49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd-1789378827
 )  
-[Virusscan at Virustotal, sbt_console_select32.exe 32bit-exe, Check here](https://www.virustotal.com/gui/url/9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9/detection/u-9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9-1789377473
+[Virusscan at Virustotal, sbt_console_select32.exe 32bit-exe, Check here](https://www.virustotal.com/gui/url/9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9/detection/u-9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9-1789378828
 )  
 Use [CTRL] + Click to open in a new window! 
