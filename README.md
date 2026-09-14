@@ -155,15 +155,15 @@ Hotkeys are defined in the "\[config]"-section of the config file:
 * escapeHotkey (inhibit sending code to the REPL): **\[SHIFT] + \[Esc],  
 * escapeForcedHotkey (forced to immediately stop sending code to the REPL): \[Esc],
   
-Hotkeys to be used in a text-editor:  
+Hotkeys to be used in a text editor:  
 * replLoadSelectedHotkey: **\[CTRL] + \[e]**  
-execute the seleted part of the code (as part 1 or with --load CE--) from the editor-page in the SBT-console-REPL.  
+execute the selected part of the code (as part 1 or with --load CE--) from the editor page in the SBT-console-REPL.  
   
 * replLoadHotkey: **\[ALT] + \[e]**  
-execute the code (as part 1 or with --load CE--) of the editor-page in the SBT-console-REPL.   
+execute the code (as part 1 or with --load CE--) of the editor page in the SBT-console-REPL.   
     
 * replSelectLoadPart2Hotkey: **\[SHIFT] + \[ALT] + \[e]**  
-save the code as code part 2 or delete it (if nothing is seleted).  
+save the code as code part 2 or delete it (if nothing is selected).  
 
 ##### Click modifiers  
   
@@ -171,13 +171,13 @@ save the code as code part 2 or delete it (if nothing is seleted).
   
 ##### Code execution  
   
-Start a sbt-console window by selecting an entry.  
+Start a SBT-console window by selecting an entry.  
 Entry names must be enclosed in parentheses and must not contain spaces!  
-Then open your text-editor with the code to be executed with your editor and mark it,  
+Then open your text editor with the code to be executed with your editor and mark it,  
 or mark any code elsewhere, i.e., in your browser.  
 Press the replLoadHotkey, the code is executed in the SBT-console-REPL.  
-Press the \[CTRL]-key to switch back to your editor.  
-Holding down the \[CTRL]-key other commands can be emitted first, i.e., killing the REPL (\[CTRL] + [c]), copy text etc., auto-switching back afterwards.   
+Press the \[CTRL] key to switch back to your editor.  
+Holding down the \[CTRL] key other commands can be emitted first, i.e., killing the REPL (\[CTRL] + [c]), copy text etc., auto-switching back afterwards.   
 If your code execution needs two parts (if using a companion object),  
 append the code part 2 surrounded by the comment (pseudocode) "/*\* code part 2 section" ... "*/" 
 to your code:  
@@ -188,17 +188,17 @@ code part 1
 code part 2
 */ 
 ```
-(Saves the 2nd part also, position of code part 2 section doesn't matter).  
+(Saves the 2nd part also, the position of code part 2 section doesn't matter).  
   
 If you want to execute only the selected part of the code, press the replLoadSelectedHotkey (default: **\[CTRL] + \[e]**).   
-To always execute a second part besides a seleted part, mark the second part (i.e., code part 2)  
+To always execute a second part besides a selected part, mark the second part (i.e., code part 2)  
 and press the replSelectLoadPart2Hotkey: **\[SHIFT] + \[ALT] + \[e]** once.  
 The second part is saved, so you must not always mark the code part 2 too.  
-(Cleaned by the reset-hotkey (default is: \[CTRL] + r)).  
+(Cleaned by the reset hotkey (default is: \[CTRL] + r)).  
     
 ##### Code execution internals  
   
-The config file section "\[config]" contains the definiton of the replcommands="..." as a CSV list.  
+The config file section "\[config]" contains the definition of the replcommands="..." as a CSV list.  
 The replcommands are executed from left to right.  
 There are 3 "pseudo"-commands defined internally:  
 ```  
@@ -214,7 +214,7 @@ Pressing the replSelectLoadPart2Hotkey, the code is saved to the temporary file 
 If the command "--load the code part 1-- " is reached, the SBT-console-REPL ":load "sbt_console_select"-directory\replPart1.hs"  
 is executed, likewise "--load the code part 2--" -&gt; ":load "sbt_console_select"-directory\replPart2.hs"
   
-If your code uses Cats Effect use the "--load CE--" instead of "--load the code part 1--"    
+If your code uses Cats Effect, use the "--load CE--" instead of "--load the code part 1--"    
 in the config file section "\[config]" replcommands="..." or use a file "replcommands.txt" 
 in the running directory containing: 
 ```
@@ -222,12 +222,13 @@ in the running directory containing:
 ```  
 But "--load CE--" is also usable to run standard Scala code in the Scala 3 REPL.  
 Main difference is: "--load CE--" mode uses the windows "postmessage" function to send  
-the code to the REPL window which may be invisble (using "cmd.exe" console only),
+the code to the REPL window which may be invisible (using "cmd.exe" console only),
 while "--load the code part 1--" uses a function ("sendInput"),  
 which sends into the keyboard buffer, using the "":load file" REPL command.  
   
-In case of using "cmd.exe" console,  
-all other instructions are now send via the "postmessage" function (v > 0.252).   
+In case of using the "cmd.exe" console,  
+all other instructions are now sent via the "postmessage" function (v > 0.252),  
+unless the delayFastMode is set to "=1".   
   
 You may mix the "pseudo"-commands with other SBT-console-REPL-commands,   
 Example:  
@@ -922,8 +923,8 @@ Copyright (c) 2020/2021 J. v. Roos
 
 
 ##### Virusscan at Virustotal 
-[Virusscan at Virustotal, sbt_console_select.exe 64bit-exe, Check here](https://www.virustotal.com/gui/url/49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd/detection/u-49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd-1789376611
+[Virusscan at Virustotal, sbt_console_select.exe 64bit-exe, Check here](https://www.virustotal.com/gui/url/49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd/detection/u-49443150327609bc525844b98df3d7a1209509a268a6257ef86eec1ea02925fd-1789377471
 )  
-[Virusscan at Virustotal, sbt_console_select32.exe 32bit-exe, Check here](https://www.virustotal.com/gui/url/9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9/detection/u-9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9-1789376613
+[Virusscan at Virustotal, sbt_console_select32.exe 32bit-exe, Check here](https://www.virustotal.com/gui/url/9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9/detection/u-9e1af3ef4725ebfa06160e20caba2e9c3b89036eab3cb5cdec93e3181485a2b9-1789377473
 )  
 Use [CTRL] + Click to open in a new window! 
