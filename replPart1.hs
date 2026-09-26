@@ -1,5 +1,3 @@
+/** useImports=repl-imports.sctxt */
 
-val run = println(quickRequest.get(uri"http://httpbin.org/ip").send())
-
-
-
+import sttp.client4.*

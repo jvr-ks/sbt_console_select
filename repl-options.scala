@@ -13,13 +13,15 @@
 //> using dep co.fs2::fs2-reactive-streams:3.14.0
 //> using dep co.fs2::fs2-scodec:3.14.0
 
+/* 
 //> using dep org.http4s::http4s-ember-client:1.0.0-M48
 //> using dep org.http4s::http4s-ember-server:1.0.0-M48
 //> using dep org.http4s::http4s-dsl:1.0.0-M48
 //> using dep org.http4s::http4s-core:1.0.0-M48
 //> using dep org.http4s::http4s-client:1.0.0-M48
 //> using dep org.http4s::http4s-server:1.0.0-M48
-
+*/
+ 
 //> using dep org.scala-lang.modules::scala-swing::3.0.0
 //> using dep org.scala-lang:scala-library:3.9.0
 

@@ -9,8 +9,6 @@ import fansi.*
 import fs2.*
 import fs2.io.file.{Files, Path}
 
-import sttp.client4.quick.*
-
 import scala.concurrent.duration.*
 import scala.swing.*
 import scala.swing.BorderPanel.Position.*
@@ -30,6 +28,8 @@ import com.comcast.ip4s._
 import org.typelevel.log4cats.LoggerFactory
 import org.typelevel.log4cats.slf4j.Slf4jFactory
 import scala.concurrent.duration._
+
+import sttp.client4.*
 
 extension [A](io: IO[A])
   def trace: IO[A] = for {
