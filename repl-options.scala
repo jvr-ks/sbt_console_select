@@ -28,3 +28,7 @@
 //> using dep org.typelevel::log4cats-core:2.8.0
 //> using dep org.typelevel::log4cats-slf4j:2.8.0
 
+//> using dep com.softwaremill.sttp.client4::core:4.0.27
+
+
+
