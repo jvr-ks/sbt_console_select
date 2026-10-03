@@ -1,0 +1,8 @@
+sbt_console_select32.exe
+sbt_console_select.txt
+sbt_console_select_shortcuts.txt
+mime.types
+license.txt
+Licenses.txt
+repl-imports.sctxt
+repl-options.scala
