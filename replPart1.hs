@@ -1,6 +1,4 @@
 def test(
-  a: Int, 
-  b: Int): Unit = println(a + b)
-
-
-
+  a: Int,
+  b: Int
+) = println(a + b)
