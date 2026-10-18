@@ -9,7 +9,7 @@ Included test file: "testREPL.scsc", "testReplCE.scsc" and "build.sbt"
 
 ##### Description  
  
-Simple app to start "sbt console" or "sbt consoleQuick" (or GHCI) in different directories.  
+Simple app to start "sbt console", "sbt consoleQuick" or Scala-cli REPL in different directories.  
 [SBT](https://www.scala-sbt.org/) is a [Scala](https://www.scala-lang.org/) build tool,   
 "sbt console" or "sbt consoleQuick" starts the Scala REPL,  
 using additional information supplied by the SBT build system.  
