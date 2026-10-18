@@ -81,7 +81,7 @@ StringCaseSense, Off
 ;----------------------------- global variables -----------------------------
 appName := "Sbt_console_select"
 appnameLower := "sbt_console_select"
-appVersion := "0.274"
+appVersion := "0.275"
 app := appName . " " . appVersion
 extension := ".exe"
 terminalType := ""
